@@ -1,4 +1,17 @@
 .header {
   display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dbdbdb;
+  height: 77px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  transition: height 0.2s ease-in-out;
+}
+.header > div {
+  display: flex;
   justify-content: space-between;
+  width: 1010px;
+  padding: 26px 20px;
 }
