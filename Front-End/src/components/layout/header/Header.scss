@@ -15,3 +15,9 @@
   width: 1010px;
   padding: 26px 20px;
 }
+.header-nav > ul {
+  display: flex;
+}
+.header-nav > ul > li:last-child {
+  margin-left: 30px;
+}
