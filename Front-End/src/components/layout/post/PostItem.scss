@@ -61,21 +61,36 @@
   }
 }
 .post-footer-section {
+  padding: 10px 20px;
   .activity-section {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
     .like-section {
+      display: flex;
+      align-items: center;
       .like-svg {
+        cursor: pointer;
         width: 24px;
         height: 24px;
+        margin-right: 10px;
+      }
+      .like-count {
+        font-weight: 600;
       }
     }
     .share-section {
+      cursor: pointer;
       .share-svg {
         width: 24px;
         height: 24px;
       }
+    }
+  }
+  .description-section {
+    padding: 7px 0;
+    .description-author {
+      font-weight: 600;
+      margin-right: 14px;
     }
   }
 }
