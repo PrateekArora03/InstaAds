@@ -62,15 +62,20 @@
 }
 .post-footer-section {
   .activity-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
     .like-section {
       .like-svg {
         width: 24px;
         height: 24px;
       }
     }
-  }
-  .share-section {
-    .share-svg {
+    .share-section {
+      .share-svg {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 }
