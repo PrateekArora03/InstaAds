@@ -1,42 +1,64 @@
+// Profile container
+.profile-container {
+  text-align: center;
+}
 .profile {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 60px;
-  @media screen and (max-width: 920px) {
-    flex-direction: column;
-    width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 50px;
+  margin-top: 100px; // Remove the margin after adding the heading component to the same
+  // Media breakpoints
+  @media only screen and(max-width: 736px) {
+    display: grid;
+    grid-template-columns: 1fr;
   }
+  // Profile image container
   .profile-img-section {
-    width: 150px;
-    height: 150px;
-    @media screen and (max-width: 920px) {
-      width: 100%;
-      text-align: center;
-    }
+    width: 100%;
+    height: 100%;
+    // Image
     .user-profile-img {
       border-radius: 50%;
     }
   }
+
+  // Profile details container
   .profile-details {
-    width: 550px;
-    padding-top: 10px;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+
     .profile-main {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
+      display: grid;
       .user-name {
-        font-weight: 600;
-        font-size: 20px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        letter-spacing: 0.05rem;
+        padding: 0.8rem 0;
+        margin: 0.4rem 0;
       }
-      .user-edit {
+      // Edit profile button/link
+      .user-edit-link {
+        border: 1px solid rgb(104, 103, 103);
+        font-size: 1rem;
+        font-weight: bold;
         border-radius: 4px;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 5px 9px;
+        padding: 0.2rem 0.6rem;
+        height: 25%;
+        margin: 1.1rem 0;
         border: 1px solid #dbdbdb;
-        margin-left: 15px;
         color: #262626;
         cursor: pointer;
+      }
+    }
+    // User description container
+    .description-container {
+      width: 100%;
+      // User description
+      .user-description {
+        text-align: left;
+        color: #262626;
+        width: 100%;
       }
     }
   }
