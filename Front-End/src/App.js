@@ -3,7 +3,9 @@ import Header from "./components/layout/header/Header";
 import Post from "./components/layout/post/PostItem";
 import Profile from "./components/layout/profile/Profile";
 import PostItem from "./components/layout/post/PostItem";
+import Home from "./components/layout/home/Home";
 import axios from "axios";
+import { Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -34,17 +36,33 @@ class App extends React.Component {
     }
   };
 
+  /**
+   * Returns routes based on condition
+   * @param {string}
+   * @return {object}
+   */
+  Routes = user => {
+    // Protected Routes
+    if (user) {
+      return (
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      );
+    }
+    // Unprotected Routes
+    else {
+      return (
+        <Switch>{/* TODO: Add routes that doesn't requires user auth*/}</Switch>
+      );
+    }
+  };
+
   render() {
     return (
       <div className="App">
-        {
-          <>
-            {/* <Header /> */}
-            {/* <PostItem /> */}
-            {/* <Profile /> */}
-            {/* <Home /> */}
-          </>
-        }
+        {/*TODO: Add last default Route for error 404 */}
+        {this.Routes(this.state.user)}
       </div>
     );
   }
