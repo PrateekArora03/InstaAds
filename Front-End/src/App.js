@@ -1,8 +1,6 @@
 import React from "react";
 import Header from "./components/layout/header/Header";
-import Post from "./components/layout/post/PostItem";
 import Profile from "./components/layout/profile/Profile";
-import PostItem from "./components/layout/post/PostItem";
 import Home from "./components/layout/home/Home";
 import axios from "axios";
 import { Route, Switch } from "react-router-dom";
@@ -48,6 +46,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/profile" component={Profile} />
+          <Route component={PageNotFound} />
         </Switch>
       );
     }
@@ -62,7 +61,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header/>
+        <Header />
         {/*TODO: Add last default Route for error 404 */}
         {this.Routes(this.state.user)}
       </div>
