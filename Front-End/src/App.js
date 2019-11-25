@@ -47,6 +47,7 @@ class App extends React.Component {
       return (
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/profile" component={Profile} />
         </Switch>
       );
     }
@@ -61,6 +62,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <Header/>
         {/*TODO: Add last default Route for error 404 */}
         {this.Routes(this.state.user)}
       </div>
