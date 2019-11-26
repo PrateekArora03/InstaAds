@@ -2,6 +2,8 @@ import React from "react";
 import Header from "./components/layout/header/Header";
 import Profile from "./components/layout/profile/Profile";
 import Home from "./components/layout/home/Home";
+import PageNotFound from "./components/layout/notfound/PageNotFound";
+import Login from "./components/layout/login/Login";
 import axios from "axios";
 import { Route, Switch } from "react-router-dom";
 
@@ -35,14 +37,23 @@ class App extends React.Component {
     if (user) {
       return (
         <Switch>
+<<<<<<< HEAD
           <Route exact path='/' component={Home} />
+=======
+          <Route exact path="/" component={Home} />
+          <Route exact path="/profile" component={Profile} />
+          <Route component={PageNotFound} />
+>>>>>>> 2364558dcd85e0317c248b96c6e430d046ad6e3c
         </Switch>
       );
     }
     // Unprotected Routes
     else {
       return (
-        <Switch>{/* TODO: Add routes that doesn't requires user auth*/}</Switch>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route component={PageNotFound} />
+        </Switch>
       );
     }
   };
@@ -53,7 +64,13 @@ class App extends React.Component {
   };
   render() {
     return (
+<<<<<<< HEAD
       <div className='App'>
+=======
+      <div className="App">
+        <Header />
+        <Login />
+>>>>>>> 2364558dcd85e0317c248b96c6e430d046ad6e3c
         {/*TODO: Add last default Route for error 404 */}
         {this.Routes(this.state.user)}
       </div>
