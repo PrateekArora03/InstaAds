@@ -13,11 +13,11 @@ class App extends React.Component {
     user: null
   };
 
-  fetchUser = async token => {
+  fetchUser = async ({ authToken }) => {
     try {
-      const req = await axios.get("http://localhost:3000/api/user", {
+      const req = await axios.get("http://localhost:3000/api/users", {
         headers: {
-          Authorization: token
+          Authorization: authToken
         }
       });
       // Update the state
@@ -39,7 +39,7 @@ class App extends React.Component {
       return (
         <Switch>
           <Route exact path='/profile' component={Profile} />
-          <Route exact path='/timeline' component={Home} />
+          <Route exact path='/' component={Home} />
           <Route component={Page404} />
         </Switch>
       );
@@ -57,8 +57,8 @@ class App extends React.Component {
     }
   };
   componentDidMount = async () => {
-    if (localStorage.authToken) {
-      this.fetchUser(JSON.parse(localStorage.user.authToken));
+    if (localStorage.user) {
+      this.fetchUser(JSON.parse(localStorage.user));
     }
   };
   render() {

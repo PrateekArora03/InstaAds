@@ -55,7 +55,10 @@ router.post("/login", (req, res) => {
 /* Post register page */
 router.post("/register", (req, res) => {
   User.create(req.body, (err, user) => {
-    if (err) return res.status(400).json({ status: false, err });
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ status: false, err });
+    }
     res.json({ status: "success", message: "User registered", user });
   });
 });

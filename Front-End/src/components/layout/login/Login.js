@@ -22,9 +22,9 @@ export default class Login extends React.Component {
     axios
       .post(`http://localhost:3000/api/users/login`, this.state)
       .then(data => {
-        localStorage.setItem("userData", JSON.stringify(data.data.user));
+        localStorage.setItem("user", JSON.stringify(data.data.user));
         // TODO: Add logic to render different dashboard
-        this.props.history.push("/dashboard");
+        this.props.history.push("/");
       })
       .catch(err => {
         console.error(err);
