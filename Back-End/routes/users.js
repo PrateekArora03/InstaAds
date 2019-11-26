@@ -21,7 +21,7 @@ router.post("/login", (req, res) => {
     return res.status(401).json({ message: "Please enter password" });
   }
   User.findOne({ $or: [{ email }, { username }] }, async (err, user) => {
-    if (err) return res.status(400).json({ message: err });
+    if (err) return res.status(400).json({ status: false, message: err });
     if (!user)
       return res
         .status(401)
@@ -38,15 +38,16 @@ router.post("/login", (req, res) => {
       return res.status(200).json({
         status: "success",
         message: "Admin logged in",
-        token,
-        isInstaAdmin: true
+        user: { authToken: token, isAdmin: true }
       });
     }
     // User request
     else {
-      return res
-        .status(200)
-        .json({ status: "success", message: "User logged in", token });
+      return res.status(200).json({
+        status: "success",
+        message: "User logged in",
+        user: { authToken: token, isAdmin: false }
+      });
     }
   });
 });
@@ -54,7 +55,7 @@ router.post("/login", (req, res) => {
 /* Post register page */
 router.post("/register", (req, res) => {
   User.create(req.body, (err, user) => {
-    if (err) return res.status(400).json({ message: err });
+    if (err) return res.status(400).json({ status: false, err });
     res.json({ status: "success", message: "User registered", user });
   });
 });

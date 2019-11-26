@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
-import "./Login.scss";
+import "../login/Login.scss";
 
-export default class Login extends React.Component {
+export default class Register extends React.Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    name: ""
   };
 
   handleSubmit = e => {
@@ -20,11 +21,10 @@ export default class Login extends React.Component {
   postUserData = () => {
     // Post the user data
     axios
-      .post(`http://localhost:3000/api/users/login`, this.state)
+      .post(`http://localhost:3000/api/users/register`, this.state)
       .then(data => {
-        localStorage.setItem("userData", JSON.stringify(data.data.user));
         // TODO: Add logic to render different dashboard
-        this.props.history.push("/dashboard");
+        this.props.history.push("/login");
       })
       .catch(err => {
         console.error(err);
@@ -36,9 +36,21 @@ export default class Login extends React.Component {
       <div className='login-container'>
         <div className='login-content'>
           <div className='login-header'>
-            <h1 className='login-title'>Sign In</h1>
+            <h1 className='login-title'>Register</h1>
           </div>
           <form className='login-form' onSubmit={this.handleSubmit}>
+            <input
+              type='text'
+              name='name'
+              placeholder='Name'
+              onChange={this.handleChange}
+            />
+            <input
+              type='text'
+              name='username'
+              placeholder='Username'
+              onChange={this.handleChange}
+            />
             <input
               type='email'
               name='email'
@@ -51,7 +63,7 @@ export default class Login extends React.Component {
               placeholder='Password'
               onChange={this.handleChange}
             />
-            <button type='submit'>Login</button>
+            <button type='submit'>Register</button>
           </form>
         </div>
       </div>
