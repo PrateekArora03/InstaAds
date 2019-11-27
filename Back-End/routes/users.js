@@ -38,7 +38,7 @@ router.post("/login", (req, res) => {
       return res.status(200).json({
         status: "success",
         message: "Admin logged in",
-        user: { authToken: token, isAdmin: true }
+        authToken: token
       });
     }
     // User request
@@ -46,7 +46,7 @@ router.post("/login", (req, res) => {
       return res.status(200).json({
         status: "success",
         message: "User logged in",
-        user: { authToken: token, isAdmin: false }
+        authToken: token
       });
     }
   });
