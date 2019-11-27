@@ -13,7 +13,7 @@ class App extends React.Component {
     user: null
   };
 
-  fetchUser = async ({ authToken }) => {
+  fetchUser = async authToken => {
     try {
       const req = await axios.get("http://localhost:3000/api/users", {
         headers: {
@@ -38,8 +38,8 @@ class App extends React.Component {
     if (user) {
       return (
         <Switch>
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/' component={Home} />
+          <Route exact path="/" component={Home} />
+          <Route path="/profile" component={Profile} />
           <Route component={Page404} />
         </Switch>
       );
@@ -48,22 +48,26 @@ class App extends React.Component {
     else {
       return (
         <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/' component={Login} />
+          <Route path="/register" component={Register} />
+          <Route
+            path="/login"
+            render={() => <Login fetchUser={this.fetchUser} />}
+          />
           <Route component={Page404} />
         </Switch>
       );
     }
   };
+
   componentDidMount = async () => {
-    if (localStorage.user) {
-      this.fetchUser(JSON.parse(localStorage.user));
+    if (localStorage.authToken) {
+      this.fetchUser(JSON.parse(localStorage.authToken));
     }
   };
+
   render() {
     return (
-      <div className='App'>
+      <div className="App">
         <Header />
         {/*TODO: Add last default Route for error 404 */}
         {this.Routes(this.state.user)}
