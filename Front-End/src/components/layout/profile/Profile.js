@@ -9,7 +9,7 @@ function Profile() {
         <div className="profile-img-section">
           {/* TODO: replace the link of the image with dynamic one */}
           <img
-            alt="Change Profile Photo"
+            alt="profile"
             className="user-profile-img"
             src="https://scontent-del1-1.cdninstagram.com/vp/00bfc7b9f7519e644ec0c6e064ffbbd4/5E55977A/t51.2885-19/s150x150/65578934_692329671194784_1804334869359099904_n.jpg?_nc_ht=scontent-del1-1.cdninstagram.com"
           />
