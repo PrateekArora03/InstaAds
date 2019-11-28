@@ -42,6 +42,11 @@ class Login extends React.Component {
           <div className="login-header">
             <h1 className="login-title">Sign In</h1>
           </div>
+          <div className="link-container">
+            <Link className="link" to="/register">
+              Need an account?
+            </Link>
+          </div>
           <form className="login-form" onSubmit={this.handleSubmit}>
             <input
               type="email"
