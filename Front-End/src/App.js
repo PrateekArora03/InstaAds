@@ -39,7 +39,12 @@ class App extends React.Component {
       return (
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/profile" component={Profile} />
+          <Route
+            path="/profile"
+            render={() => {
+              return <Profile data={this.state.user} />;
+            }}
+          />
           <Route component={Page404} />
         </Switch>
       );
@@ -71,8 +76,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header />
-        {/*TODO: Add last default Route for error 404 */}
+        {/* Prevent to render header on login and register component */}
+        {this.state.user ? <Header /> : ""}
         {this.Routes(this.state.user)}
       </div>
     );
