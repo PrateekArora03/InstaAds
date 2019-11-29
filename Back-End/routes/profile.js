@@ -31,16 +31,23 @@ router.get("/:username", async (req, res) => {
 // Put username
 router.put("/:username", async (req, res) => {
   try {
-    const profile = await User.findOne({ username: req.params.username });
+    const profile = await User.findOne(
+      { username: req.params.username },
+      { new: true }
+    );
     // Checks if the current user is logged in
     if (profile._id == req.user.id) {
       const updateProfile = await User.findOneAndUpdate(
         { username: req.params.username },
         req.body
       );
+      // Update the password
+      updateProfile.password = req.body.password;
+      const updatedProfile = await updateProfile.save();
       res.status(200).json({
         message: "Profile updated successfully",
-        status: "success"
+        status: "success",
+        user: updatedProfile
       });
     } else {
       res
