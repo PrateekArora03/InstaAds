@@ -10,8 +10,8 @@ export default class Home extends Component {
   };
 
   async componentDidMount() {
-    if (localStorage.authToken) {
-      this.fetchPosts(JSON.parse(localStorage.authToken));
+    if (localStorage.user) {
+      this.fetchUser(JSON.parse(localStorage.user));
     }
   }
 
@@ -19,15 +19,14 @@ export default class Home extends Component {
    * Fetches the recent posts
    * @param {string}
    */
-  fetchPosts = async token => {
+  fetchPosts = async ({ authToken }) => {
     try {
       let posts = await axios.get("http://localhost:3000/api/timeline", {
         headers: {
-          Authorization: token
+          Authorization: authToken
         }
       });
       this.setState({ posts: posts.data.posts }, () =>
-        console.log(this.state.posts, "posts")
       );
     } catch (error) {
       console.log(error);
@@ -36,7 +35,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="home-main-container">
+      <div className='home-main-container'>
         {/* TODO: add iterate through the posts */}
         <PostItem />
       </div>
