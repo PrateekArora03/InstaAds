@@ -11,26 +11,28 @@ router.get("/", Auth.verToken, (req, res) => {
 });
 
 /* POST login user. */
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, username, password } = req.body;
   if (!username && !email)
-    return res
-      .status(401)
-      .json({ message: "Please enter either email or username" });
+    return res.status(401).json({
+      status: false,
+      message: "Enter email or username"
+    });
   else if (!password) {
-    return res.status(401).json({ message: "Please enter password" });
+    return res.status(401).json({ status: false, message: "Enter password" });
   }
   User.findOne({ $or: [{ email }, { username }] }, async (err, user) => {
     if (err) return res.status(400).json({ status: false, message: err });
     if (!user)
       return res
         .status(401)
-        .json({ status: "failed", message: "Invaild credentials" });
+        .json({ status: false, message: "User not register" });
     if (!user.verifyPassword(password)) {
       return res
         .status(401)
         .json({ status: "failed", message: "Invaild password" });
     }
+
     let token = await Auth.genToken(user.id);
 
     // Admin login request
@@ -53,7 +55,7 @@ router.post("/login", (req, res) => {
 });
 
 /* Post register page */
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   User.create(req.body, (err, user) => {
     if (err) {
       console.log(err);
