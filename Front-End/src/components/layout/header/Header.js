@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Header.scss";
 
 function Header() {
+  //Add logOut
   return (
     <header className="header">
       <div className="container center">
@@ -43,6 +44,7 @@ function Header() {
                 </svg>
               </Link>
             </li>
+            <li onClick={() => this.props.logOut()}>logOut</li>
           </ul>
         </nav>
       </div>
