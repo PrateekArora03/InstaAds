@@ -21,11 +21,9 @@ router.post("/", async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Post created successfully", status: "success" });
+      .json({ message: "Post created successfully", status: true });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
@@ -44,14 +42,10 @@ router.put("/:postid", async (req, res) => {
         status: "success"
       });
     } else {
-      res
-        .status(401)
-        .json({ message: "User not authorized", status: "failed" });
+      res.status(401).json({ message: "User not authorized", status: false });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
@@ -67,14 +61,10 @@ router.delete("/:postid", async (req, res) => {
         status: "success"
       });
     } else {
-      res
-        .status(401)
-        .json({ message: "User not authorized", status: "failed" });
+      res.status(401).json({ message: "User not authorized", status: false });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
@@ -84,7 +74,7 @@ router.patch("/:postid/like", async (req, res) => {
     const post = await Post.findById(req.params.postid);
     // Checks if post liked already
     if (post.like.includes(req.user.id)) {
-      return res.json({ message: "Post liked already", status: "failed" });
+      return res.json({ message: "Post liked already", status: false });
     } else {
       const updatePost = await Post.findByIdAndUpdate(
         req.params.postid,
@@ -98,9 +88,7 @@ router.patch("/:postid/like", async (req, res) => {
       });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
@@ -117,19 +105,17 @@ router.patch("/:postid/unlike", async (req, res) => {
       );
       res.status(200).json({
         message: "Post updated successfully",
-        status: "success",
+        status: true,
         post: updatePost
       });
     } else {
       res.json({
         message: "Post doesn't contain any like from current user",
-        status: "failed"
+        status: false
       });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
