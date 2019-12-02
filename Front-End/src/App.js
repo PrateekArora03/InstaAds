@@ -6,7 +6,7 @@ import Page404 from "./components/layout/static/Page404";
 import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
 import axios from "axios";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -58,6 +58,9 @@ class App extends React.Component {
             path="/login"
             render={() => <Login fetchUser={this.fetchUser} />}
           />
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
           <Route component={Page404} />
         </Switch>
       );

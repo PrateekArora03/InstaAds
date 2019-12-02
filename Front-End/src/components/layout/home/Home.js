@@ -27,8 +27,7 @@ export default class Home extends Component {
           Authorization: authToken
         }
       });
-      this.setState({ posts: posts.data.posts }, () =>
-      );
+      this.setState({ posts: posts.data.posts });
     } catch (error) {
       console.error(error);
     }
