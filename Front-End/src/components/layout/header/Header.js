@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Icon } from "antd";
 import "./Header.scss";
 
 function Header() {
@@ -44,7 +45,9 @@ function Header() {
                 </svg>
               </Link>
             </li>
-            <li onClick={() => this.props.logOut()}>logOut</li>
+            <li>
+              <Icon onClick={() => this.props.logOut()} type="logout" />
+            </li>
           </ul>
         </nav>
       </div>
