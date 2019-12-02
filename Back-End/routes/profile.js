@@ -15,16 +15,14 @@ router.get("/:username", async (req, res) => {
     );
     if (!user) {
       return res
-        .status(404)
-        .json({ message: "User does't exist", status: "failed" });
+        .status(401)
+        .json({ message: "User not register", status: false });
     }
     res
       .status(200)
-      .json({ message: "User found successfully", status: "success", user });
+      .json({ message: "User found successfully", status: true, user });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "There's an error", status: "failed", error });
+    res.status(400).json({ message: "There's an error", status: false, error });
   }
 });
 
@@ -50,9 +48,7 @@ router.put("/:username", async (req, res) => {
         user: updatedProfile
       });
     } else {
-      res
-        .status(401)
-        .json({ message: "User not authorized", status: "failed" });
+      res.status(401).json({ message: "User not authorized", status: false });
     }
   } catch (error) {
     res
