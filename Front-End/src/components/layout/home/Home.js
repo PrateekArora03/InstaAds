@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PostItem from "../post/PostItem";
 import axios from "axios";
+import "./Home.scss";
 
 export default class Home extends Component {
   state = {
@@ -29,15 +30,17 @@ export default class Home extends Component {
       this.setState({ posts: posts.data.posts }, () =>
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   render() {
     return (
-      <div className='home-main-container'>
-        {/* TODO: add iterate through the posts */}
-        <PostItem />
+      <div className="home-main-container">
+        {this.state.posts &&
+          this.state.posts.map(post => {
+            return <PostItem key={post._id} data={post} />;
+          })}
       </div>
     );
   }

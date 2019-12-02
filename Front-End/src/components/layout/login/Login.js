@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
 import "./Login.scss";
+import { Link, withRouter } from "react-router-dom";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   state = {
     email: "",
     password: ""
@@ -22,8 +23,11 @@ export default class Login extends React.Component {
     axios
       .post(`http://localhost:3000/api/users/login`, this.state)
       .then(data => {
-        localStorage.setItem("user", JSON.stringify(data.data.user));
+        localStorage.setItem("authToken", JSON.stringify(data.data.authToken));
         // TODO: Add logic to render different dashboard
+        const authToken = data.data.authToken;
+        // console.log(authToken, "con");
+        this.props.fetchUser(authToken);
         this.props.history.push("/");
       })
       .catch(err => {
@@ -33,28 +37,35 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <div className='login-container'>
-        <div className='login-content'>
-          <div className='login-header'>
-            <h1 className='login-title'>Sign In</h1>
+      <div className="login-container">
+        <div className="login-content">
+          <div className="login-header">
+            <h1 className="login-title">Sign In</h1>
           </div>
-          <form className='login-form' onSubmit={this.handleSubmit}>
+          <div className="link-container">
+            <Link className="link" to="/register">
+              Need an account?
+            </Link>
+          </div>
+          <form className="login-form" onSubmit={this.handleSubmit}>
             <input
-              type='email'
-              name='email'
-              placeholder='Email'
+              type="email"
+              name="email"
+              placeholder="Email"
               onChange={this.handleChange}
             />
             <input
-              type='password'
-              name='password'
-              placeholder='Password'
+              type="password"
+              name="password"
+              placeholder="Password"
               onChange={this.handleChange}
             />
-            <button type='submit'>Login</button>
+            <button type="submit">Login</button>
           </form>
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(Login);

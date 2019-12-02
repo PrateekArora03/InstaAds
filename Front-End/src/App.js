@@ -6,14 +6,14 @@ import Page404 from "./components/layout/static/Page404";
 import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
 import axios from "axios";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 class App extends React.Component {
   state = {
     user: null
   };
 
-  fetchUser = async ({ authToken }) => {
+  fetchUser = async authToken => {
     try {
       const req = await axios.get("http://localhost:3000/api/users", {
         headers: {
@@ -38,8 +38,13 @@ class App extends React.Component {
     if (user) {
       return (
         <Switch>
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/' component={Home} />
+          <Route exact path="/" component={Home} />
+          <Route
+            path="/profile"
+            render={() => {
+              return <Profile data={this.state.user} />;
+            }}
+          />
           <Route component={Page404} />
         </Switch>
       );
@@ -48,28 +53,35 @@ class App extends React.Component {
     else {
       return (
         <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/' component={Login} />
+          <Route path="/register" component={Register} />
+          <Route
+            path="/login"
+            render={() => <Login fetchUser={this.fetchUser} />}
+          />
           <Route component={Page404} />
         </Switch>
       );
     }
   };
+
   componentDidMount = async () => {
-    if (localStorage.user) {
-      this.fetchUser(JSON.parse(localStorage.user));
+    if (localStorage.authToken) {
+      this.fetchUser(JSON.parse(localStorage.authToken));
+    } else {
+      // If user isn't loged in then redirect it to login page
+      this.props.history.push("/login");
     }
   };
+
   render() {
     return (
-      <div className='App'>
-        <Header />
-        {/*TODO: Add last default Route for error 404 */}
+      <div className="App">
+        {/* Prevent to render header on login and register component */}
+        {this.state.user ? <Header /> : ""}
         {this.Routes(this.state.user)}
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -19,12 +19,20 @@
       text-align: center !important;
       box-sizing: border-box;
       .login-title {
-        font-size: 22px;
+        font-size: 1.8rem;
         color: #262626;
         font-weight: 400;
         line-height: 1.2;
-        margin-top: 0;
-        margin-bottom: 0.5em;
+        // margin-top: 0;
+        // margin-bottom: 0.5em;
+      }
+    }
+    .link-container {
+      text-align: center;
+      margin: 0 0 2rem 0;
+      .link {
+        color: rgb(45, 45, 195);
+        font-size: 1.2rem;
       }
     }
     .login-form {
