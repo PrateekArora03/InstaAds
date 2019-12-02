@@ -28,6 +28,12 @@ class App extends React.Component {
     }
   };
 
+  logOutUser = () => {
+    localStorage.clear();
+    this.setState({ user: null });
+    this.props.history.push("/");
+  };
+
   /**
    * Returns routes based on condition
    * @param {string}
@@ -80,7 +86,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {/* Prevent to render header on login and register component */}
-        {this.state.user ? <Header /> : ""}
+        {this.state.user ? <Header logOut={this.logOutUser} /> : ""}
         {this.Routes(this.state.user)}
       </div>
     );
