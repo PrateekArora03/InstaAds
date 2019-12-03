@@ -19,7 +19,7 @@ router.get("/dashboard", (req, res) => {
             status: "failed",
             error: err
           });
-        return res.json({ message: "success", post });
+        return res.json({ message: "success", posts });
       });
   } else {
     res.status(401).json({ message: "User not authorized" });
