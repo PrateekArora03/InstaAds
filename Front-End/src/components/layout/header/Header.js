@@ -45,9 +45,9 @@ function Header() {
                 </svg>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Icon onClick={() => this.props.logOut()} type="logout" />
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>
