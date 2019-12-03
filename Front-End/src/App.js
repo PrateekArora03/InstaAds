@@ -1,12 +1,15 @@
 import React from "react";
+import axios from "axios";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+
 import Header from "./components/layout/header/Header";
 import Profile from "./components/layout/profile/Profile";
 import Home from "./components/layout/home/Home";
 import Page404 from "./components/layout/static/Page404";
 import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
-import axios from "axios";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+
+import "antd/dist/antd.css";
 
 class App extends React.Component {
   state = {
@@ -46,11 +49,15 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route
+            exact
             path="/profile"
             render={() => {
               return <Profile data={this.state.user} />;
             }}
           />
+          <Route exact path="/login">
+            <Redirect to="/" />
+          </Route>
           <Route component={Page404} />
         </Switch>
       );
