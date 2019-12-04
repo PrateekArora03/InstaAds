@@ -8,8 +8,7 @@ router.use(Auth.verToken);
 
 // Get dashboard
 router.get("/dashboard", (req, res) => {
-  // console.log(req.isInstaAdmin, req.user);
-  if (req.isInstaAdmin) {
+  if (req.user.isAdmin) {
     Post.find({ isApprove: false })
       .sort({ createdAt: -1 })
       .exec((err, post) => {
