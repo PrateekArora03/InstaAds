@@ -20,10 +20,15 @@ app.use(express.urlencoded({ extended: false }));
 
 // Connect mongoose
 mongoose.connect(
-  process.env.MONGOURL || "mongodb://localhost/instaAds",
+  process.env.MONGOURL,
   { useUnifiedTopology: true, useNewUrlParser: true },
   err => {
-    err ? console.log(err) : console.log("success mongodb connected");
+    if (err) {
+      console.log(err);
+    } else {
+      // require("./utils/seed.js");
+      console.log("success mongodb connected");
+    }
   }
 );
 
