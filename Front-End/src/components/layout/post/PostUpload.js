@@ -8,11 +8,16 @@ const { TextArea } = Input;
 
 class PostUpload extends Component {
   state = {
-    loading: false
+    loading: false,
+    value: ""
   };
 
   enterLoading = () => {
     this.setState({ loading: true });
+  };
+
+  handleChange = e => {
+    this.setState({ value: e.target.value });
   };
 
   render() {
@@ -36,7 +41,11 @@ class PostUpload extends Component {
     return (
       <form className="post-upload-form">
         <div className="input-post">
-          <TextArea rows={4} value="hello" />
+          <TextArea
+            rows={4}
+            value={this.state.input}
+            onChange={this.handleChange}
+          />
           <Upload {...props}>
             <Button>
               <Icon type="upload" /> Image
