@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import { Input, Button, message, Upload, Icon } from "antd";
 
@@ -12,20 +13,36 @@ class PostUpload extends Component {
     value: ""
   };
 
-  enterLoading = () => {
-    this.setState({ loading: true });
-  };
-
   handleChange = e => {
     this.setState({ value: e.target.value });
+  };
+
+  postData = async () => {
+    this.setState({ loading: true });
+    try {
+      if (this.state.value.length > 0) {
+        const post = await axios.post(
+          "http://localhost:3000/api/post",
+          { description: this.state.value },
+          {
+            headers: {
+              Authorization: JSON.parse(localStorage.getItem("authToken"))
+            }
+          }
+        );
+        this.setState({ loading: false });
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   render() {
     const props = {
       name: "file",
-      action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+      action: "http://localhost:3000/api/post/upload",
       headers: {
-        authorization: "authorization-text"
+        authorization: JSON.parse(localStorage.getItem("authToken"))
       },
       onChange(info) {
         if (info.file.status !== "uploading") {
@@ -33,6 +50,7 @@ class PostUpload extends Component {
         }
         if (info.file.status === "done") {
           message.success(`${info.file.name} file uploaded successfully`);
+          console.log(info, "info");
         } else if (info.file.status === "error") {
           message.error(`${info.file.name} file upload failed.`);
         }
@@ -43,7 +61,7 @@ class PostUpload extends Component {
         <div className="input-post">
           <TextArea
             rows={4}
-            value={this.state.input}
+            value={this.state.value}
             onChange={this.handleChange}
           />
           <Upload {...props}>
@@ -55,7 +73,7 @@ class PostUpload extends Component {
         <Button
           type="primary"
           loading={this.state.loading}
-          onClick={this.enterLoading}
+          onClick={this.postData}
         >
           Post
         </Button>
