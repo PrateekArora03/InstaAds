@@ -29,14 +29,6 @@ exports.verToken = (req, res, next) => {
         (err, user) => {
           if (err) return res.status(401).json({ message: "User not found" });
           req.user = user;
-          // console.log(req.user, "user");
-          // Admin user req
-          if (
-            user.email === process.env.email ||
-            user.username === process.env.username
-          ) {
-            req.isInstaAdmin = true;
-          }
           next();
         }
       );
