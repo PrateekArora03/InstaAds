@@ -3,9 +3,32 @@ const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
 const Auth = require("../auth/auth");
+// const multer = require("multer");
+const upload = require("../utils/upload");
 
 // Protect the route
 router.use(Auth.verToken);
+
+router.post("/upload", (req, res) => {
+  console.log("Uploading");
+  upload(req, res, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (req.file === undefined) {
+        res.json({
+          msg: "Error: No file selected"
+        });
+      } else {
+        console.log("File uploaded");
+        res.json({
+          msg: "File uploaded",
+          file: `uploads/${req.file.filename}`
+        });
+      }
+    }
+  });
+});
 
 // Post request
 router.post("/", async (req, res) => {
