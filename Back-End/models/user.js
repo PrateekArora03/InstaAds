@@ -15,7 +15,8 @@ const userSchema = Schema(
     address: String,
     password: { type: String, required: true, minlength: 6 },
     // TODO: Add post field and reference it to another schema by id
-    post: [{ type: Schema.Types.ObjectId, ref: "Post" }]
+    post: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    isAdmin: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
