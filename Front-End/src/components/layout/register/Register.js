@@ -19,9 +19,9 @@ export default class Register extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  postUserData = () => {
+  postUserData = async () => {
     // Post the user data
-    axios
+    const res = await axios
       .post(`http://localhost:3000/api/users/register`, this.state)
       .then(data => {
         // TODO: Add logic to render different dashboard

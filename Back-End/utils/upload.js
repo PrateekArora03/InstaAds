@@ -18,7 +18,7 @@ const checkFileType = (file, cb) => {
 
 // Set storage engine
 const storage = multer.diskStorage({
-  destination: "./public/uploads",
+  destination: path.__dirname + "/public/uploads/",
   filename: function(req, file, cb) {
     cb(
       null,
