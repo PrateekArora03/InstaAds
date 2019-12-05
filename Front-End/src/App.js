@@ -8,6 +8,7 @@ import Home from "./components/layout/home/Home";
 import Page404 from "./components/layout/static/Page404";
 import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
+import Dashboard from "./components/admin/dashboard";
 
 import "antd/dist/antd.css";
 
@@ -18,13 +19,13 @@ class App extends React.Component {
 
   fetchUser = async authToken => {
     try {
-      const req = await axios.get("http://localhost:3000/api/users", {
+      const res = await axios.get("http://localhost:3000/api/users", {
         headers: {
           Authorization: authToken
         }
       });
       // Update the state
-      this.setState({ user: req.data.user });
+      this.setState({ user: res.data.user });
     } catch (err) {
       localStorage.clear();
       console.error(err);
@@ -45,22 +46,34 @@ class App extends React.Component {
   Routes = user => {
     // Protected Routes
     if (user) {
-      return (
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route
-            exact
-            path="/profile"
-            render={() => {
-              return <Profile data={this.state.user} />;
-            }}
-          />
-          <Route exact path="/login">
-            <Redirect to="/" />
-          </Route>
-          <Route component={Page404} />
-        </Switch>
-      );
+      if (!user.isAdmin) {
+        return (
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/profile"
+              render={() => {
+                return <Profile data={this.state.user} />;
+              }}
+            />
+            <Route exact path="/login">
+              <Redirect to="/" />
+            </Route>
+            <Route component={Page404} />
+          </Switch>
+        );
+      } else {
+        return (
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/login">
+              <Redirect to="/" />
+            </Route>
+            <Route component={Page404} />
+          </Switch>
+        );
+      }
     }
     // Unprotected Routes
     else {
