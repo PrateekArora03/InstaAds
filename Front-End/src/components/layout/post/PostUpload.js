@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+
+import ImageUpload from "./ImageUpload";
 import axios from "axios";
 
-import { Input, Button, message, Upload, Icon } from "antd";
+import { Input, Button, message } from "antd";
 
 import "./postupload.scss";
 
@@ -10,26 +12,39 @@ const { TextArea } = Input;
 class PostUpload extends Component {
   state = {
     loading: false,
-    value: ""
+    postData: {
+      description: "",
+      media: ""
+    }
   };
 
   handleChange = e => {
-    this.setState({ value: e.target.value });
+    let obj = { ...this.state.postData };
+    obj.description = e.target.value;
+    this.setState({ postData: obj });
   };
 
-  postData = async () => {
+  imageUpdate = media => {
+    let obj = { ...this.state.postData };
+    obj.media = media;
+    this.setState({ postData: obj });
+  };
+  postDataSend = async () => {
     this.setState({ loading: true });
     try {
-      if (this.state.value.length > 0) {
+      if (this.state.postData.description && this.state.postData.media) {
         const post = await axios.post(
           "http://localhost:3000/api/post",
-          { description: this.state.value },
+          this.state.postData,
           {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("authToken"))
             }
           }
         );
+        this.setState({ loading: false });
+      } else {
+        message.warning("Please Add Post Content and media");
         this.setState({ loading: false });
       }
     } catch (err) {
@@ -38,42 +53,20 @@ class PostUpload extends Component {
   };
 
   render() {
-    const props = {
-      name: "file",
-      action: "http://localhost:3000/api/post/upload",
-      headers: {
-        authorization: JSON.parse(localStorage.getItem("authToken"))
-      },
-      onChange(info) {
-        if (info.file.status !== "uploading") {
-          console.log(info.file, info.fileList);
-        }
-        if (info.file.status === "done") {
-          message.success(`${info.file.name} file uploaded successfully`);
-          console.log(info, "info");
-        } else if (info.file.status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      }
-    };
     return (
       <form className="post-upload-form">
         <div className="input-post">
           <TextArea
             rows={4}
-            value={this.state.value}
+            value={this.state.postData.description}
             onChange={this.handleChange}
           />
-          <Upload {...props}>
-            <Button>
-              <Icon type="upload" /> Image
-            </Button>
-          </Upload>
+          <ImageUpload imageUpdate={this.imageUpdate} />
         </div>
         <Button
           type="primary"
           loading={this.state.loading}
-          onClick={this.postData}
+          onClick={this.postDataSend}
         >
           Post
         </Button>
