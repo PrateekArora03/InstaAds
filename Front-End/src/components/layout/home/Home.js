@@ -13,8 +13,8 @@ export default class Home extends Component {
   };
 
   async componentDidMount() {
-    if (localStorage.user) {
-      this.fetchUser(JSON.parse(localStorage.user));
+    if (localStorage.authToken) {
+      this.fetchPosts(JSON.parse(localStorage.getItem("authToken")));
     }
   }
 
@@ -22,7 +22,7 @@ export default class Home extends Component {
    * Fetches the recent posts
    * @param {string}
    */
-  fetchPosts = async ({ authToken }) => {
+  fetchPosts = async authToken => {
     try {
       let posts = await axios.get("http://localhost:3000/api/timeline", {
         headers: {
