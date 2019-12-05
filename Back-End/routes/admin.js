@@ -11,7 +11,7 @@ router.get("/dashboard", (req, res) => {
   if (req.user.isAdmin) {
     Post.find({ isApprove: false })
       .sort({ createdAt: -1 })
-      .exec((err, post) => {
+      .exec((err, posts) => {
         if (err)
           return res.json({
             message: "There's error",
@@ -28,7 +28,7 @@ router.get("/dashboard", (req, res) => {
 // Patch post
 router.patch("/post/:postid", (req, res) => {
   // Checks if the user is admin
-  if (req.isInstaAdmin) {
+  if (req.user.isAdmin) {
     Post.findByIdAndUpdate(
       req.params.postid,
       { isApprove: true },
