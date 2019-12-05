@@ -1,13 +1,17 @@
 import React from "react";
+import axios from "axios";
 
-import { Table, Divider, Tag } from "antd";
+import { Table, Divider, message } from "antd";
 
-const { Column, ColumnGroup } = Table;
+import "./dashboard.scss";
+
+const { Column } = Table;
 
 class DashBoard extends React.Component {
   state = {
     posts: []
   };
+
   fetchPosts = async authToken => {
     try {
       const res = await axios.get("http://localhost:3000/api/admin/dashboard", {
@@ -21,42 +25,73 @@ class DashBoard extends React.Component {
       console.error(err);
     }
   };
-  componentDidMount = () => {
-    if (localStorage.authToken) {
-      this.fetchUser(JSON.parse(localStorage.authToken));
+
+  approvePost = async id => {
+    const token = JSON.parse(localStorage.getItem("authToken"));
+    try {
+      const res = await axios.patch(
+        "http://localhost:3000/api/admin/post/" + id,
+        null,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
+      if (res.data.status === "success") {
+        this.fetchPosts(token);
+        message.success("approve success");
+      } else {
+        message.error("Failed to approve");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
+
+  deletePost = async id => {
+    const token = JSON.parse(localStorage.getItem("authToken"));
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/post/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
+      if (res.data.status === "success") {
+        this.fetchPosts(token);
+        message.success("delete success");
+      } else {
+        message.error("delete failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  componentDidMount = () => {
+    if (localStorage.authToken) {
+      this.fetchPosts(JSON.parse(localStorage.authToken));
+    }
+  };
+
   render() {
     return (
-      <Table dataSource={posts}>
-        <ColumnGroup title="Name">
-          <Column title="First Name" dataIndex="firstName" key="firstName" />
-          <Column title="Last Name" dataIndex="lastName" key="lastName" />
-        </ColumnGroup>
-        <Column title="Age" dataIndex="age" key="age" />
-        <Column title="Address" dataIndex="address" key="address" />
-        <Column
-          title="Tags"
-          dataIndex="tags"
-          key="tags"
-          render={tags => (
-            <span>
-              {tags.map(tag => (
-                <Tag color="blue" key={tag}>
-                  {tag}
-                </Tag>
-              ))}
-            </span>
-          )}
-        />
+      <Table className="table" rowKey="_id" dataSource={this.state.posts}>
+        <Column title="Author" dataIndex="author.name" key="author" />
+        <Column title="Description" dataIndex="description" key="description" />
         <Column
           title="Action"
           key="action"
-          render={(text, record) => (
+          render={(text, postData) => (
             <span>
-              <a>Invite {record.lastName}</a>
+              <a
+                title="author.name"
+                onClick={() => this.approvePost(postData._id)}
+              >
+                Approve
+              </a>
               <Divider type="vertical" />
-              <a>Delete</a>
+              <a onClick={() => this.deletePost(postData._id)}>Delete</a>
             </span>
           )}
         />
@@ -64,3 +99,5 @@ class DashBoard extends React.Component {
     );
   }
 }
+
+export default DashBoard;
