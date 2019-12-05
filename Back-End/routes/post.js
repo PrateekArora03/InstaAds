@@ -77,11 +77,17 @@ router.delete("/:postid", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postid);
     // Checks if the post has same author
-    if (post.author._id == req.user.id) {
+    if (post.author._id == req.user.id || req.user.isAdmin) {
       const deletePost = await Post.findByIdAndDelete(req.params.postid);
+      const user = await User.findOneAndUpdate(
+        { id: post.author.id },
+        { $pull: { post: post.id } },
+        { new: true }
+      );
       res.status(200).json({
         message: "Post deleted successfully",
-        status: "success"
+        status: "success",
+        user
       });
     } else {
       res.status(401).json({ message: "User not authorized", status: false });
