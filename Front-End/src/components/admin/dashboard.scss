@@ -1,0 +1,6 @@
+.ant-table-body tr {
+  margin: 1rem auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+}
