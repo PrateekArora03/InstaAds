@@ -7,7 +7,6 @@ const Auth = require("../auth/auth");
 const upload = require("../utils/upload");
 
 // Protect the route
-router.use(Auth.verToken);
 
 router.post("/upload", (req, res) => {
   console.log("Uploading");
@@ -30,6 +29,7 @@ router.post("/upload", (req, res) => {
   });
 });
 
+router.use(Auth.verToken);
 // Post request
 router.post("/", async (req, res) => {
   // Set request body author
