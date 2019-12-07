@@ -16,7 +16,20 @@ const userSchema = Schema(
     password: { type: String, required: true, minlength: 6 },
     // TODO: Add post field and reference it to another schema by id
     post: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    isAdmin: { type: Boolean, default: false }
+    isAdmin: { type: Boolean, default: false },
+    homeBanner: {
+      carousel: {
+        A: { type: String },
+        B: { type: String },
+        C: { type: String },
+        D: { type: String }
+      },
+      video: { type: String },
+      toggle: {
+        type: String,
+        enum: ["carousel", "video"]
+      }
+    }
   },
   { timestamps: true }
 );
