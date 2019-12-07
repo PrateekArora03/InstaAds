@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
 const Post = require("../models/post");
+const User = require("../models/user");
 const Auth = require("../auth/auth");
 
 // Verify the token
@@ -46,6 +48,42 @@ router.patch("/post/:postid", (req, res) => {
     );
   } else {
     res.status(401).json({ message: "User not authorized", status: "failed" });
+  }
+});
+
+//Home Banner route
+router.post("/banner", async (req, res) => {
+  if (req.user.isAdmin) {
+    try {
+      if (req.body.carousel) {
+        let { carousel } = req.body.carousel;
+        const admin = await User.findOneAndUpdate(
+          { isAdmin: true },
+          { homeBanner: { carousel, toggle: "carousel" } }
+        );
+        res.json({ status: true, message: "Banner Updated!" });
+      } else {
+        let { video } = req.body.video;
+        const admin = await User.findOneAndUpdate(
+          { isAdmin: true },
+          { homeBanner: { video, toggle: "video" } }
+        );
+        res.json({ status: true, message: "Video Updated!" });
+      }
+    } catch (error) {
+      res.json({ status: false, error });
+    }
+  } else {
+    res.json({ status: false, message: "unauthorized User" });
+  }
+});
+
+router.get("/banner", async (req, res) => {
+  try {
+    const admin = await User.findOne({ isAdmin: true });
+    res.json({ status: true, Ads: admin.homeBanner });
+  } catch (error) {
+    res.json({ status: false, error });
   }
 });
 
