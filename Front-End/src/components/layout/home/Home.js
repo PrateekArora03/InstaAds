@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import PostUpload from "./../post/PostUpload";
 import PostItem from "../post/PostItem";
+import Carousel from "../carousel/Carousel";
 import "./Home.scss";
 
 export default class Home extends Component {
@@ -38,7 +38,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home-main-container">
-        <PostUpload />
+        <Carousel />
         {this.state.posts &&
           this.state.posts.map(post => {
             return <PostItem key={post._id} data={post} />;
