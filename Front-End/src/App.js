@@ -51,7 +51,11 @@ class App extends React.Component {
       if (!user.isAdmin) {
         return (
           <Switch>
-            <Route exact path="/" render={() => <Home user={this.state.user} />} />
+            <Route
+              exact
+              path="/"
+              render={() => <Home user={this.state.user} />}
+            />
             <Route
               exact
               path="/profile"
@@ -63,6 +67,7 @@ class App extends React.Component {
               <Redirect to="/" />
             </Route>
             <Route exact path="/new" component={PostUpload} />
+            <Route exact path="/edit/:id" component={PostUpload} />
             <Route component={Page404} />
           </Switch>
         );
