@@ -9,8 +9,10 @@ import Page404 from "./components/layout/static/Page404";
 import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
 import Dashboard from "./components/admin/dashboard";
+import PostUpload from "./components/layout/post/PostUpload";
 
 import "antd/dist/antd.css";
+import { message } from "antd";
 
 class App extends React.Component {
   state = {
@@ -60,6 +62,7 @@ class App extends React.Component {
             <Route exact path="/login">
               <Redirect to="/" />
             </Route>
+            <Route exact path="/new" component={PostUpload} />
             <Route component={Page404} />
           </Switch>
         );
@@ -103,12 +106,14 @@ class App extends React.Component {
   };
 
   render() {
-    return (
+    return navigator.onLine ? (
       <div className="App">
         {/* Prevent to render header on login and register component */}
-        {this.state.user ? <Header logOut={this.logOutUser} /> : ""}
+        {!this.state.user ? "" : <Header />}
         {this.Routes(this.state.user)}
       </div>
+    ) : (
+      message.error("Please check your Network!")
     );
   }
 }
