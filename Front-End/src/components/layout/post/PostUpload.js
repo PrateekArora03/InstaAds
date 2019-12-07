@@ -42,7 +42,10 @@ class PostUpload extends Component {
             }
           }
         );
-        this.setState({ loading: false });
+        this.setState({
+          postData: { description: "", media: "" },
+          loading: false
+        });
       } else {
         message.warning("Please Add Post Content and media");
         this.setState({ loading: false });
@@ -54,10 +57,10 @@ class PostUpload extends Component {
 
   render() {
     return (
-      <form className="post-upload-form">
+      <form className="post-upload-form home-main-container">
         <div className="input-post">
           <TextArea
-            rows={4}
+            rows={6}
             value={this.state.postData.description}
             onChange={this.handleChange}
           />
