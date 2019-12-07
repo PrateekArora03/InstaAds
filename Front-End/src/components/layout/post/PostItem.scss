@@ -99,11 +99,22 @@
 
 .like-btn {
   background-color: transparent;
-  color: red;
   border: none;
   outline: none;
   cursor: pointer;
   svg {
     font-size: 1.2rem;
+    stroke: black;
+  }
+}
+
+.like-btn-liked {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  svg {
+    font-size: 1.2rem;
+    fill: red;
   }
 }

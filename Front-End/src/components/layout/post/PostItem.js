@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { message, Icon } from "antd";
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PostItem.scss";
 
 function PostItem({ data, user, fetchPosts }) {
@@ -9,18 +9,27 @@ function PostItem({ data, user, fetchPosts }) {
   const { author, media, description, like, location, views, _id } = data;
   const { name, picture } = author;
 
-  const handleLike = async id => {
+  const handleLike = async (id, e) => {
+    const currentClass = e.currentTarget.className;
+    e.currentTarget.setAttribute(
+      "class",
+      `${currentClass === "like-btn-liked" ? "like-btn" : "like-btn-liked"}`
+    );
     const token = JSON.parse(localStorage.getItem("authToken"));
     try {
       // Make the request to like or unlike the post depending on condition
       const likeOrUnlike = !like.includes(user._id) ? "like" : "unlike";
-      await axios.patch(`http://localhost:3000/api/post/${id}/${likeOrUnlike}`, null, {
-        headers: {
-          Authorization: token
+      await axios.patch(
+        `http://localhost:3000/api/post/${id}/${likeOrUnlike}`,
+        null,
+        {
+          headers: {
+            Authorization: token
+          }
         }
-      });
+      );
       // Fetch the posts after the request
-      fetchPosts(token)
+      fetchPosts(token);
     } catch (err) {
       console.error(err);
     }
@@ -50,7 +59,12 @@ function PostItem({ data, user, fetchPosts }) {
       <footer className="post-footer-section">
         <div className="activity-section">
           <span className="like-section">
-            <button className="like-btn" onClick={() => handleLike(_id)}>
+            <button
+              className={
+                like.includes(user._id) ? "like-btn-liked" : "like-btn"
+              }
+              onClick={e => handleLike(_id, e)}
+            >
               {like.includes(user._id) ? <FaHeart /> : <FaRegHeart />}
             </button>
             <span className="like-count">{like.length}</span>
