@@ -11,12 +11,26 @@
 .header > div {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 80vw;
   padding: 26px 20px;
+}
+.header-nav {
+  display: flex;
+  width: 20vw;
+  @media screen and (max-width: 768px) {
+    width: 50vw;
+  }
 }
 .header-nav > ul {
   display: flex;
+  justify-content: space-between;
+}
+.header-nav > ul > li:first-child {
+  margin-right: 30px;
 }
 .header-nav > ul > li:last-child {
-  margin-left: 30px;
+  display: flex;
+  a:first-child {
+    margin-right: 10px;
+  }
 }

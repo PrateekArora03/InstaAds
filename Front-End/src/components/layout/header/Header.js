@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon } from "antd";
+import { Button } from "antd";
+
 import "./Header.scss";
 
 function Header() {
@@ -16,6 +17,13 @@ function Header() {
         <nav className="header-nav">
           <ul>
             <li>
+              <Link to="/new">
+                <Button type="primary" shape="round" icon="plus" size="medium">
+                  New Post
+                </Button>
+              </Link>
+            </li>
+            <li>
               <Link title="Home" to="/">
                 <svg
                   aria-label="Home"
@@ -28,8 +36,6 @@ function Header() {
                   <path d="M442.246 232.543c-7.346 0-13.303 5.956-13.303 13.303v211.749H322.521V342.009c0-36.68-29.842-66.52-66.52-66.52s-66.52 29.842-66.52 66.52v115.587H83.058V245.847c0-7.347-5.957-13.303-13.303-13.303s-13.303 5.956-13.303 13.303V470.9c0 7.347 5.957 13.303 13.303 13.303h133.029c6.996 0 12.721-5.405 13.251-12.267.032-.311.052-.651.052-1.036V342.01c0-22.009 17.905-39.914 39.914-39.914s39.914 17.906 39.914 39.914V470.9c0 .383.02.717.052 1.024.524 6.867 6.251 12.279 13.251 12.279h133.029c7.347 0 13.303-5.956 13.303-13.303V245.847c-.001-7.348-5.957-13.304-13.304-13.304z" />
                 </svg>
               </Link>
-            </li>
-            <li>
               <Link title="Profile" to="/profile">
                 <svg
                   aria-label="Profile"
@@ -45,9 +51,6 @@ function Header() {
                 </svg>
               </Link>
             </li>
-            {/* <li>
-              <Icon onClick={() => this.props.logOut()} type="logout" />
-            </li> */}
           </ul>
         </nav>
       </div>
