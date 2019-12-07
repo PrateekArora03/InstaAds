@@ -7,7 +7,6 @@ import "./Home.scss";
 
 export default class Home extends Component {
   state = {
-    user: null,
     posts: null,
     isLoading: true
   };
@@ -41,7 +40,12 @@ export default class Home extends Component {
         <Carousel />
         {this.state.posts &&
           this.state.posts.map(post => {
-            return <PostItem key={post._id} data={post} />;
+            return <PostItem 
+              key={post._id} 
+              user={this.props.user} 
+              fetchPosts={this.fetchPosts} 
+              data={post} 
+              />;
           })}
       </div>
     );

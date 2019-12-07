@@ -51,7 +51,7 @@ class App extends React.Component {
       if (!user.isAdmin) {
         return (
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" render={() => <Home user={this.state.user} />} />
             <Route
               exact
               path="/profile"
