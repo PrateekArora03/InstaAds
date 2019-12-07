@@ -18,6 +18,32 @@ class PostUpload extends Component {
     }
   };
 
+  async componentDidMount() {
+    // It fetches the data if url has post id
+    if (this.props.match.params.id) {
+      const postId = this.props.match.params.id;
+      // Make the post fetch request
+      const token = JSON.parse(localStorage.getItem("authToken"));
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/post/${postId}`,
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+        const post = res.data.post;
+        // Update the state's postData with response
+        this.setState({
+          postData: { description: post.description, media: post.media }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   handleChange = e => {
     let obj = { ...this.state.postData };
     obj.description = e.target.value;
