@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { message, Icon } from "antd";
+import { message, Icon, Popover, Button } from "antd";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PostItem.scss";
 
-function PostItem({ data, user, fetchPosts }) {
+function PostItem({ data, user, fetchPosts, history }) {
+  // State
+  const [visible, toggleVisible] = useState(false);
+
   // Destructur the variables from data object
   const { author, media, description, like, location, views, _id } = data;
   const { name, picture } = author;
@@ -35,6 +39,22 @@ function PostItem({ data, user, fetchPosts }) {
     }
   };
 
+  // Handle Delete
+  const handleDelete = async id => {
+    const token = JSON.parse(localStorage.getItem("authToken"));
+    try {
+      await axios.delete(`http://localhost:3000/api/post/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
+      // Fetch the posts after the request
+      fetchPosts(token);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <article className="post-container">
       <header className="post-header-section">
@@ -50,7 +70,47 @@ function PostItem({ data, user, fetchPosts }) {
           </div>
         </div>
         <div className="more-btn-section">
-          <button className="more-btn">...</button>
+          <Popover
+            content={
+              <ul className="more-option-list">
+                {/* Provide the delete option if only user owns the post */}
+                {author._id === user._id ? (
+                  <>
+                    <li className="more-list-item">
+                      {/* TODO: Add make Ad functionality */}
+                      <button className="more-list-btn">Make Ad</button>
+                    </li>
+                    <li className="more-list-item">
+                      <button
+                        className="more-list-btn"
+                        onClick={() => history.push(`/edit/${_id}`)}
+                      >
+                        Edit
+                      </button>
+                    </li>
+                    <li className="more-list-item">
+                      <button
+                        className="more-list-btn"
+                        onClick={() => handleDelete(_id)}
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <li className="more-list-item">
+                    <button className="more-list-btn">Get Ads</button>
+                  </li>
+                )}
+              </ul>
+            }
+            title=""
+            trigger="click"
+            visible={visible}
+            onVisibleChange={() => toggleVisible(!visible)}
+          >
+            <Button type="primary">...</Button>
+          </Popover>
         </div>
       </header>
       <div className="post-img-section">
@@ -87,4 +147,4 @@ function PostItem({ data, user, fetchPosts }) {
   );
 }
 
-export default PostItem;
+export default withRouter(PostItem);
