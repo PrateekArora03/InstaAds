@@ -51,7 +51,11 @@ class App extends React.Component {
       if (!user.isAdmin) {
         return (
           <Switch>
-            <Route exact path="/" render={() => <Home user={this.state.user} />} />
+            <Route
+              exact
+              path="/"
+              render={() => <Home user={this.state.user} />}
+            />
             <Route
               exact
               path="/profile"
@@ -82,14 +86,15 @@ class App extends React.Component {
     else {
       return (
         <Switch>
-          <Route path="/register" component={Register} />
-          <Route
-            path="/login"
-            render={() => <Login fetchUser={this.fetchUser} />}
-          />
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
+          <Route exact path="/register" component={Register} />
+          <Route
+            exact
+            path="/login"
+            render={() => <Login fetchUser={this.fetchUser} />}
+          />
           <Route component={Page404} />
         </Switch>
       );
