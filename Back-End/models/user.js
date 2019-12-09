@@ -10,12 +10,19 @@ const userSchema = Schema(
     username: { type: String, required: true, unique: true },
     picture: String,
     email: { type: String, required: true, unique: true },
-    contact: { type: Number },
+    contact: { type: Number, required: true },
     description: { type: String },
+    gender: { type: String, required: true },
+    dateOfBirth: { type: Date, required: true },
+    timeOfBirth: { type: Date, required: true },
     address: String,
+    city: { type: String, required: true },
+    country: { type: String, required: true },
+    qulification: { type: String, required: true },
+    professionalQualification: { type: String, required: true },
     password: { type: String, required: true, minlength: 6 },
-    // TODO: Add post field and reference it to another schema by id
     post: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    adPost: [{ type: Schema.Types.ObjectId, ref: "adPost" }],
     isAdmin: { type: Boolean, default: false }
   },
   { timestamps: true }
