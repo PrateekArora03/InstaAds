@@ -2,12 +2,14 @@ import React from "react";
 import axios from "axios";
 import "../login/Login.scss";
 import { Link } from "react-router-dom";
+import { message } from "antd";
 
 export default class Register extends React.Component {
   state = {
     email: "",
     password: "",
-    name: ""
+    name: "",
+    username: ""
   };
 
   handleSubmit = e => {
@@ -20,16 +22,24 @@ export default class Register extends React.Component {
   };
 
   postUserData = async () => {
+    let { username, email, password, name } = this.state;
+    if (!username || !email || !password || !name) {
+      message.warning("Please fill all requied details");
+    } else if (password.length < 6) {
+      message.warning("Password must contain 6 letters!");
+    }
     // Post the user data
-    const res = await axios
-      .post(`http://localhost:3000/api/users/register`, this.state)
-      .then(data => {
-        // TODO: Add logic to render different dashboard
-        this.props.history.push("/login");
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    else {
+      const res = await axios
+        .post(`http://localhost:3000/api/users/register`, this.state)
+        .then(data => {
+          message.success("your successful Register Now you can login");
+          this.props.history.push("/login");
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   };
 
   render() {
