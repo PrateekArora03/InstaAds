@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
+// import "../../../../public/y4ia";
 
 import "./Header.scss";
 
@@ -11,7 +12,7 @@ function Header() {
       <div className="container center">
         <h1 className="header-h1">
           <Link aria-label="y4ia Services title" title="y4ia Services" to="/">
-            Y4IA
+            <img src="/y4ia.png" />
           </Link>
         </h1>
         <nav className="header-nav">

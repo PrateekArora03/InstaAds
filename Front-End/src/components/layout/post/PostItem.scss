@@ -52,8 +52,33 @@
       font-size: 14px;
       line-height: 18px;
     }
+    // Ant design button
+    .ant-btn-primary {
+      color: black;
+      background-color: transparent;
+      border-color: transparent;
+      outline: none;
+    }
   }
 }
+// More option list button
+.more-list-btn {
+  color: black;
+  width: 100%;
+  font-size: 1rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(219, 219, 219);
+  border-top: 1px solid rgb(219, 219, 219);
+  margin: 0.5rem 0;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    background-color: rgb(235, 233, 233);
+    width: 100%;
+  }
+}
+
 .post-img-section {
   overflow: hidden;
   img {

@@ -50,6 +50,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Get single post
+router.get("/:postId", async (req, res) => {
+  const postId = req.params.postId;
+  try {
+    const post = await Post.findOne({ _id: postId });
+    if (!post) res.json({ message: "Post doesn't found", status: false });
+    res.json({ message: "Got the post", status: true, post });
+  } catch (error) {
+    res.status(401).json({ message: "There's an error", status: false });
+  }
+});
+
 // Put the post
 router.put("/:postid", async (req, res) => {
   try {
