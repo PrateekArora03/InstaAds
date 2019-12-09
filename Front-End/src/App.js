@@ -10,6 +10,7 @@ import Login from "./components/layout/login/Login";
 import Register from "./components/layout/register/Register";
 import Dashboard from "./components/admin/dashboard";
 import PostUpload from "./components/layout/post/PostUpload";
+import Loader from "./components/layout/Loader/Loader";
 
 import "antd/dist/antd.css";
 import { message } from "antd";
@@ -114,6 +115,8 @@ class App extends React.Component {
   render() {
     return navigator.onLine ? (
       <div className="App">
+        {/*  TODO: Remove this loader from here */}
+        <Loader />
         {/* Prevent to render header on login and register component */}
         {!this.state.user ? "" : <Header />}
         {this.Routes(this.state.user)}
