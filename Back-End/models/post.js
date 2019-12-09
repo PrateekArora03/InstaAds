@@ -8,17 +8,11 @@ const postSchema = Schema(
     description: { type: String, required: true },
     media: String,
     location: String,
-    author: { type: Object, require: true },
+    author: { type: Object, required: true },
     isApprove: { type: Boolean, default: false },
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     like: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    views: { type: Number, default: 0 },
-    ads: {
-      adsName: String,
-      price: Number,
-      createdDate: Date,
-      expireDate: Date
-    }
+    views: { type: Scheam.Types.ObjectIdr, ref: "PostView" }
   },
   { timestamps: true }
 );
