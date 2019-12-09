@@ -12,6 +12,7 @@ const { TextArea } = Input;
 class PostUpload extends Component {
   state = {
     loading: false,
+    isEdit: false,
     postData: {
       description: "",
       media: ""
@@ -21,6 +22,10 @@ class PostUpload extends Component {
   async componentDidMount() {
     // It fetches the data if url has post id
     if (this.props.match.params.id) {
+
+      /* Change the state if*/
+      this.setState({isEdit: true});
+
       const postId = this.props.match.params.id;
       // Make the post fetch request
       const token = JSON.parse(localStorage.getItem("authToken"));
@@ -58,23 +63,44 @@ class PostUpload extends Component {
   postDataSend = async () => {
     this.setState({ loading: true });
     try {
-      if (this.state.postData.description && this.state.postData.media) {
-        const post = await axios.post(
-          "http://localhost:3000/api/post",
-          this.state.postData,
-          {
-            headers: {
-              Authorization: JSON.parse(localStorage.getItem("authToken"))
+      if (this.state.isEdit) {
+        if (this.state.postData.description || this.state.postData.media) {
+          const post = await axios.put(
+            "http://localhost:3000/api/post",
+            this.state.postData,
+            {
+              headers: {
+                Authorization: JSON.parse(localStorage.getItem("authToken"))
+              }
             }
-          }
-        );
-        this.setState({
-          postData: { description: "", media: "" },
-          loading: false
-        });
+          );
+          this.setState({
+            postData: { description: "", media: "" },
+            loading: false
+          });
+        } else {
+          message.warning("Please Add Post Content and media");
+          this.setState({ loading: false });
+        }
       } else {
-        message.warning("Please Add Post Content and media");
-        this.setState({ loading: false });
+        if (this.state.postData.description && this.state.postData.media) {
+          const post = await axios.post(
+            "http://localhost:3000/api/post",
+            this.state.postData,
+            {
+              headers: {
+                Authorization: JSON.parse(localStorage.getItem("authToken"))
+              }
+            }
+          );
+          this.setState({
+            postData: { description: "", media: "" },
+            loading: false
+          });
+        } else {
+          message.warning("Please Add Post Content and media");
+          this.setState({ loading: false });
+        }
       }
     } catch (err) {
       console.error(err);
