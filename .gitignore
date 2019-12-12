@@ -30,3 +30,4 @@ Back-End/package-lock.json
 Back-End/node_modules
 Back-End/.env
 Back-End/public/uploads/*
+Front-End/yarn.lock
