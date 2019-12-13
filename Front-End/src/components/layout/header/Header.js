@@ -1,9 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "antd";
-// import "../../../../public/y4ia";
-
+import { Button, Menu, Dropdown, Icon } from "antd";
 import "./Header.scss";
+
+const menu = (
+  <Menu>
+    <Menu.Item key="1">
+      <Link to="/new">New Post</Link>
+    </Menu.Item>
+    <Menu.Item key="2">
+      <Link to="/newBoost">Boost Post</Link>
+    </Menu.Item>
+  </Menu>
+);
 
 function Header() {
   //Add logOut
@@ -18,11 +27,11 @@ function Header() {
         <nav className="header-nav">
           <ul>
             <li>
-              <Link to="/new">
-                <Button type="primary" shape="round" icon="plus" size="medium">
-                  New Post
+              <Dropdown overlay={menu}>
+                <Button type="primary">
+                  Post <Icon type="down" />
                 </Button>
-              </Link>
+              </Dropdown>
             </li>
             <li>
               <Link title="Home" to="/">
