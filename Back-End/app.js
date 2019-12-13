@@ -7,6 +7,7 @@ var indexRouter = require("./routes/index");
 var userRouter = require("./routes/users");
 var adminRouter = require("./routes/admin");
 var postRouter = require("./routes/post");
+var adPostRouter = require("./routes/ad_post");
 var profileRouter = require("./routes/profile");
 
 // Import dotenv
@@ -40,6 +41,7 @@ app.use("/api/timeline", indexRouter);
 app.use("/api/users", userRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/post", postRouter);
+app.use("/api/adpost", adPostRouter);
 app.use("/api/profile", profileRouter);
 
 module.exports = app;
