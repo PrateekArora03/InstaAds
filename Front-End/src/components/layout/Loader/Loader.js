@@ -4,7 +4,7 @@ import "./Loader.scss";
 function Loader() {
   return (
     <div className="loader-container">
-      <img className="loader-image" src="/Loader.png" alt="loader" />
+      <img className="loader-image" src="/loader.png" alt="loader" />
     </div>
   );
 }
