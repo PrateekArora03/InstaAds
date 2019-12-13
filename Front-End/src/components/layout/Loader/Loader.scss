@@ -1,6 +1,13 @@
+.loader-container {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-content: center;
+}
 .loader-image {
   font-size: 21px;
   text-align: center;
+  width: 150px;
 
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 2s; /* Firefox < 16 */

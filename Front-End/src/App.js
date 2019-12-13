@@ -86,7 +86,9 @@ class App extends React.Component {
     }
     // Unprotected Routes
     else {
-      return (
+      return localStorage.authToken ? (
+        <Loader />
+      ) : (
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />
@@ -115,8 +117,6 @@ class App extends React.Component {
   render() {
     return navigator.onLine ? (
       <div className="App">
-        {/*  TODO: Remove this loader from here */}
-        <Loader />
         {/* Prevent to render header on login and register component */}
         {!this.state.user ? "" : <Header />}
         {this.Routes(this.state.user)}
