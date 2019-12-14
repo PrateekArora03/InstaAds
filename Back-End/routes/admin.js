@@ -1,29 +1,26 @@
 const express = require("express");
 const router = express.Router();
 
-const Post = require("../models/post");
-const User = require("../models/user");
 const Auth = require("../auth/auth");
+const User = require("../models/user");
+const adPost = require("../models/adPost");
+const Post = require("../models/post");
 
 // Verify the token
 router.use(Auth.verToken);
 
 // Get dashboard
-router.get("/dashboard", (req, res) => {
-  if (req.user.isAdmin) {
-    Post.find({ isApprove: false })
-      .sort({ createdAt: -1 })
-      .exec((err, posts) => {
-        if (err)
-          return res.json({
-            message: "There's error",
-            status: "failed",
-            error: err
-          });
-        return res.json({ message: "success", posts });
-      });
-  } else {
-    res.status(401).json({ message: "User not authorized" });
+router.get("/dashboard", async (req, res) => {
+  try {
+    if (req.user.isAdmin) {
+      const posts = await Post.find({ isApprove: false }).sort({ createdAt: -1 });
+      const adPosts = await adPost.find({ isApprove: false }).sort({ createdAt: -1 });
+      return res.json({ message: "Request success", status: true, adPosts, posts});
+    } else {
+      res.status(401).json({ message: "User not authorized" });
+    }
+  } catch (error) {
+    return res.json({ message: "There's error", status: false, error })
   }
 });
 
