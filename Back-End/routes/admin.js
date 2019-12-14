@@ -25,26 +25,38 @@ router.get("/dashboard", async (req, res) => {
 });
 
 // Patch post
-router.patch("/post/:postid", (req, res) => {
+router.patch("/post/:postid", async (req, res) => {
   // Checks if the user is admin
-  if (req.user.isAdmin) {
-    Post.findByIdAndUpdate(
-      req.params.postid,
-      { isApprove: true },
-      (error, post) => {
-        if (error)
-          return req.json({
-            message: "There's an error",
-            status: "failed",
-            error
-          });
-        res
-          .status(200)
-          .json({ message: "Post approved successfully", status: "success" });
+  try {
+    if (req.user.isAdmin) {
+      const post = await Post.findOneAndUpdate( { _id: req.params.postid }, { isApprove: true });
+      if(post === null) {
+        return res.json({ message: "Post not found with this post ID", status: false })
       }
-    );
-  } else {
-    res.status(401).json({ message: "User not authorized", status: "failed" });
+      return res.status(200).json({ message: "Post approved successfully", status: "success" });
+    } else {
+      res.status(401).json({ message: "User not authorized", status: false });
+    }
+  } catch (error) {
+      return res.json({ message: "There's an error", status: false,  error });
+  }
+});
+
+  // Patch ad post
+router.patch("/adpost/:adpostid", async (req, res) => {
+  // Checks if the user is admin
+  try {
+    if (req.user.isAdmin) {
+      const post = await adPost.findOneAndUpdate( { _id: req.params.adpostid }, { isApprove: true });
+      if(post === null) {
+        return res.json({ message: "Ad post not found with this post ID", status: false })
+      }
+      return res.status(200).json({ message: "Ad post approved successfully", status: true });
+    } else {
+      res.status(401).json({ message: "User not authorized", status: false });
+    }
+  } catch (error) {
+      return res.status(401).json({ message: "There's an error", status: false,  error });
   }
 });
 
