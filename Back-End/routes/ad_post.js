@@ -160,4 +160,21 @@ router.patch("/:postid/unlike", async (req, res) => {
   }
 });
 
+// Patch the post view
+router.patch("/:postid/view", async (req, res) => {
+  try {
+    let post = await AdPost.findOne({_id: req.params.postid});
+    // Increment the views
+    post.views = post.views + 1;
+    post = await post.save();
+    res.status(200).json({
+        message: "Post updated successfully",
+        status: true,
+        post
+      });
+  } catch (error) {
+    res.status(400).json({ message: "There's an error", status: false, error });
+  }
+});
+
 module.exports = router;
