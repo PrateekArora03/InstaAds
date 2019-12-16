@@ -11,7 +11,8 @@ const adPostSchema = new Schema(
     isApprove: { type: Boolean, default: false },
     // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     like: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    views: { type: Schema.Types.ObjectId, ref: "AdView" }
+    // views: { type: Schema.Types.ObjectId, ref: "AdView" }
+    views: { type: Number, default: 0, required: true }
   },
   { timestamps: true }
 );

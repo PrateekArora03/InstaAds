@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Post = require("../models/post");
+const AdPost = require("../models/adPost");
 const User = require("../models/user");
 const Auth = require("../auth/auth");
 // const multer = require("multer");
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   // Set request body author
   req.body.author = req.user;
   try {
-    const post = await Post.create(req.body);
+    const post = await AdPost.create(req.body);
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { $push: { post: post.id } },
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
 router.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
   try {
-    const post = await Post.findOne({ _id: postId });
+    const post = await AdPost.findOne({ _id: postId });
     if (!post) res.json({ message: "Post doesn't found", status: false });
     res.json({ message: "Got the post", status: true, post });
   } catch (error) {
@@ -65,10 +65,10 @@ router.get("/:postId", async (req, res) => {
 // Put the post
 router.put("/:postid", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postid);
+    const post = await AdPost.findById(req.params.postid);
     // Checks if the post has same author
     if (post.author._id == req.user.id) {
-      const updatePost = await Post.findByIdAndUpdate(
+      const updatePost = await AdPost.findByIdAndUpdate(
         req.params.postid,
         req.body
       );
@@ -87,10 +87,10 @@ router.put("/:postid", async (req, res) => {
 // Delete the post
 router.delete("/:postid", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postid);
+    const post = await AdPost.findById(req.params.postid);
     // Checks if the post has same author
     if (post.author._id == req.user.id || req.user.isAdmin) {
-      const deletePost = await Post.findByIdAndDelete(req.params.postid);
+      const deletePost = await AdPost.findByIdAndDelete(req.params.postid);
       const user = await User.findOneAndUpdate(
         { id: post.author.id },
         { $pull: { post: post.id } },
@@ -112,12 +112,12 @@ router.delete("/:postid", async (req, res) => {
 // Patch the post { like }
 router.patch("/:postid/like", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postid);
+    const post = await AdPost.findById(req.params.postid);
     // Checks if post liked already
     if (post.like.includes(req.user.id)) {
       return res.json({ message: "Post liked already", status: false });
     } else {
-      const updatePost = await Post.findByIdAndUpdate(
+      const updatePost = await AdPost.findByIdAndUpdate(
         req.params.postid,
         { $push: { like: req.user.id } },
         { safe: true, upsert: true, new: true }
@@ -136,10 +136,10 @@ router.patch("/:postid/like", async (req, res) => {
 // Patch the post { unlike }
 router.patch("/:postid/unlike", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postid);
+    const post = await AdPost.findById(req.params.postid);
     // Checks if post liked already
     if (post.like.includes(req.user.id)) {
-      const updatePost = await Post.findByIdAndUpdate(
+      const updatePost = await AdPost.findByIdAndUpdate(
         req.params.postid,
         { $pull: { like: req.user.id } },
         { safe: true, upsert: true, new: true }
@@ -163,7 +163,7 @@ router.patch("/:postid/unlike", async (req, res) => {
 // Patch the post view
 router.patch("/:postid/view", async (req, res) => {
   try {
-    let post = await Post.findOne({_id: req.params.postid});
+    let post = await AdPost.findOne({_id: req.params.postid});
     // Increment the views
     post.views = post.views + 1;
     post = await post.save();
