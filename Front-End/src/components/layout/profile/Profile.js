@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Avatar } from "antd";
+
 import "./Profile.scss";
+import Grid from "antd/lib/card/Grid";
 
 function Profile(props) {
   const { email, name, username, picture, description } = props.data;
@@ -8,11 +11,18 @@ function Profile(props) {
     <div className="profile-container">
       <div className="profile container center">
         <div className="profile-img-section">
-          <img
-            alt="profile"
-            className="user-profile-img"
-            src={picture ? picture : "https://tinyurl.com/utjf6jw"}
-          />
+          {picture ? (
+            <img alt="profile" className="user-profile-img" src={picture} />
+          ) : (
+            <Avatar
+              style={{
+                color: "#f56a00",
+                backgroundColor: "#fde3cf"
+              }}
+            >
+              {name.split(" ")[0]}
+            </Avatar>
+          )}
         </div>
         <div className="profile-details">
           <div className="profile-main">
