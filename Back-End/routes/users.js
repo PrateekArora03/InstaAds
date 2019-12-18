@@ -44,6 +44,7 @@ router.post("/register", async (req, res) => {
       console.log(err);
       return res.status(400).json({ status: false, err });
     }
+    user.password = "";
     res.json({ status: "success", message: "User registered", user });
   });
 });
