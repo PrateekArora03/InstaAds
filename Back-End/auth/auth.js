@@ -25,7 +25,7 @@ exports.verToken = (req, res, next) => {
       if (err) return res.status(401).json({ message: "invalid token" });
       User.findById(
         userToken.userId,
-        "-password -createdAt -updatedAt -contact -post -__v",
+        "-password -createdAt -updatedAt -__v",
         (err, user) => {
           if (err) return res.status(401).json({ message: "User not found" });
           req.user = user;
