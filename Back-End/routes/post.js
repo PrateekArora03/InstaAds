@@ -3,7 +3,6 @@ const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
 const Auth = require("../auth/auth");
-// const multer = require("multer");
 const upload = require("../utils/upload");
 
 // Protect the route
@@ -163,15 +162,15 @@ router.patch("/:postid/unlike", async (req, res) => {
 // Patch the post view
 router.patch("/:postid/view", async (req, res) => {
   try {
-    let post = await Post.findOne({_id: req.params.postid});
+    let post = await Post.findOne({ _id: req.params.postid });
     // Increment the views
     post.views = post.views + 1;
     post = await post.save();
     res.status(200).json({
-        message: "Post updated successfully",
-        status: true,
-        post
-      });
+      message: "Post updated successfully",
+      status: true,
+      post
+    });
   } catch (error) {
     res.status(400).json({ message: "There's an error", status: false, error });
   }

@@ -26,7 +26,7 @@ router.get("/:username", async (req, res) => {
   }
 });
 
-// Put username
+// Update Profile
 router.put("/:username", async (req, res) => {
   try {
     const profile = await User.findOne(
@@ -37,15 +37,14 @@ router.put("/:username", async (req, res) => {
     if (profile._id == req.user.id) {
       const updateProfile = await User.findOneAndUpdate(
         { username: req.params.username },
-        req.body
-      );
-      // Update the password
-      updateProfile.password = req.body.password;
-      const updatedProfile = await updateProfile.save();
+        req.body,
+        { new: true }
+      ).select("-password");
+
       res.status(200).json({
         message: "Profile updated successfully",
         status: "success",
-        user: updatedProfile
+        user: updateProfile
       });
     } else {
       res.status(401).json({ message: "User not authorized", status: false });
