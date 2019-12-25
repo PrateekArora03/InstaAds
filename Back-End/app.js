@@ -1,14 +1,14 @@
-var express = require("express");
-var path = require("path");
-var logger = require("morgan");
+const express = require("express");
+const logger = require("morgan");
 const mongoose = require("mongoose");
 
-var indexRouter = require("./routes/index");
-var userRouter = require("./routes/users");
-var adminRouter = require("./routes/admin");
-var postRouter = require("./routes/post");
-var adPostRouter = require("./routes/ad_post");
-var profileRouter = require("./routes/profile");
+const indexRouter = require("./routes/index");
+const userRouter = require("./routes/users");
+const adminRouter = require("./routes/admin");
+const postRouter = require("./routes/post");
+const adPostRouter = require("./routes/ad_post");
+const profileRouter = require("./routes/profile");
+const carouselRouter = require("./routes/carousel");
 
 // Import dotenv
 require("dotenv").config();
@@ -43,5 +43,6 @@ app.use("/api/admin", adminRouter);
 app.use("/api/post", postRouter);
 app.use("/api/adpost", adPostRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/carousel", carouselRouter);
 
 module.exports = app;
