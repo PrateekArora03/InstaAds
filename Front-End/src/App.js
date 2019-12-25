@@ -22,7 +22,7 @@ class App extends React.Component {
 
   fetchUser = async authToken => {
     try {
-      const res = await axios.get("http://localhost:3000/api/users", {
+      const res = await axios.get("/api/users", {
         headers: {
           Authorization: authToken
         }
@@ -30,7 +30,6 @@ class App extends React.Component {
       // Update the state
       this.setState({ user: res.data.user });
     } catch (err) {
-      localStorage.clear();
       console.error(err);
     }
   };
@@ -64,6 +63,7 @@ class App extends React.Component {
                 return <Profile data={this.state.user} />;
               }}
             />
+
             <Route exact path="/login">
               <Redirect to="/" />
             </Route>
@@ -118,7 +118,7 @@ class App extends React.Component {
     return navigator.onLine ? (
       <div className="App">
         {/* Prevent to render header on login and register component */}
-        {!this.state.user ? "" : <Header />}
+        {!this.state.user ? "" : <Header user={this.state.user} />}
         {this.Routes(this.state.user)}
       </div>
     ) : (
