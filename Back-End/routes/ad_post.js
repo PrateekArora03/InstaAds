@@ -3,31 +3,6 @@ const router = express.Router();
 const AdPost = require("../models/adPost");
 const User = require("../models/user");
 const Auth = require("../auth/auth");
-// const multer = require("multer");
-const upload = require("../utils/upload");
-
-// Protect the route
-
-router.post("/upload", (req, res) => {
-  console.log("Uploading");
-  upload(req, res, err => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (req.file === undefined) {
-        res.json({
-          msg: "Error: No file selected"
-        });
-      } else {
-        console.log("File uploaded");
-        res.json({
-          msg: "File uploaded",
-          file: `uploads/${req.file.filename}`
-        });
-      }
-    }
-  });
-});
 
 router.use(Auth.verToken);
 // Post request
@@ -42,9 +17,10 @@ router.post("/", async (req, res) => {
       { safe: true, upsert: true, new: true }
     );
 
-    res
-      .status(200)
-      .json({ message: "Post created successfully", status: true });
+    res.status(200).json({
+      message: "Ads created successfully! Admin Will contact you soon",
+      status: true
+    });
   } catch (error) {
     res.status(400).json({ message: "There's an error", status: false, error });
   }
@@ -163,15 +139,15 @@ router.patch("/:postid/unlike", async (req, res) => {
 // Patch the post view
 router.patch("/:postid/view", async (req, res) => {
   try {
-    let post = await AdPost.findOne({_id: req.params.postid});
+    let post = await AdPost.findOne({ _id: req.params.postid });
     // Increment the views
     post.views = post.views + 1;
     post = await post.save();
     res.status(200).json({
-        message: "Post updated successfully",
-        status: true,
-        post
-      });
+      message: "Post updated successfully",
+      status: true,
+      post
+    });
   } catch (error) {
     res.status(400).json({ message: "There's an error", status: false, error });
   }
