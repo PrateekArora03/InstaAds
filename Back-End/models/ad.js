@@ -14,7 +14,7 @@ const adsSchema = Schema({
     video: { type: String },
     toggle: {
       type: String,
-      enum: ["carousel", "video"]
+      enum: ["image", "video"]
     }
   }
 });
