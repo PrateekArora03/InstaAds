@@ -28,7 +28,7 @@ mongoose.connect(
     if (err) {
       console.log(err);
     } else {
-      // require("./utils/seed.js");
+      require("./utils/seed.js");
       console.log("success mongodb connected");
     }
   }
