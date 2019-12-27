@@ -40,12 +40,14 @@ export default class Home extends Component {
         <Carousel />
         {this.state.posts &&
           this.state.posts.map(post => {
-            return <PostItem 
-              key={post._id} 
-              user={this.props.user} 
-              fetchPosts={this.fetchPosts} 
-              data={post} 
-              />;
+            return (
+              <PostItem
+                key={post._id}
+                user={this.props.user}
+                fetchPosts={this.fetchPosts}
+                data={post}
+              />
+            );
           })}
       </div>
     );
