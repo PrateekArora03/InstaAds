@@ -13,12 +13,10 @@ router.patch("/", auth.verToken, async (req, res) => {
         { homeBanner: req.body },
         { new: true }
       );
-      return res
-        .status(201)
-        .json({
-          status: "success",
-          message: `carousel Update to ${req.body.toggle}`
-        });
+      return res.status(201).json({
+        status: "success",
+        message: `carousel Update to ${req.body.toggle}`
+      });
     } catch (error) {
       return res.status(400).json({ status: false, error });
     }
@@ -31,7 +29,6 @@ router.patch("/", auth.verToken, async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const ads = await Ad.find({});
-    console.log(ads[0]);
     res.status(200).json({ status: "success", ads: ads[0].homeBanner });
   } catch (error) {
     console.log(error);

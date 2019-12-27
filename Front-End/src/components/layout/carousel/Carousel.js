@@ -1,39 +1,50 @@
 import React from "react";
 import axios from "axios";
 
-import { Carousel as Slider } from "antd";
-import "./carousel.scss";
+import Carousel from "@brainhubeu/react-carousel";
+import "@brainhubeu/react-carousel/lib/style.css";
 
-class Carousel extends React.Component {
+class MyCarousel extends React.Component {
   state = {};
   componentDidMount = async () => {
-    const res = await axios.get("http://localhost:3000/admin/banner", {
-      headers: {
-        Authorization: localStorage.authToken
-      }
-    });
-    if (res.data.Ads) {
-      console.log(res.data.Ads);
+    try {
+      const res = await axios.get("/api/carousel");
+      console.log(res.data.ads);
+      this.setState({ banner: res.data.ads });
+    } catch (error) {
+      console.error(error);
     }
   };
   render() {
     return (
-      <Slider autoplay>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-      </Slider>
+      <div style={{ marginTop: "20px" }}>
+        {this.state.banner && (
+          <Carousel
+            autoPlay={5000}
+            animationSpeed={2000}
+            infinite
+            slidesPerPage={1}
+          >
+            <img
+              style={{ width: "100%", height: "auto" }}
+              src={this.state.banner.carousel.A}
+            />
+            <img
+              style={{ width: "100%", height: "auto" }}
+              src={this.state.banner.carousel.B}
+            />
+            <img
+              style={{ width: "100%", height: "auto" }}
+              src={this.state.banner.carousel.C}
+            />
+            <img
+              style={{ width: "100%", height: "auto" }}
+              src={this.state.banner.carousel.D}
+            />
+          </Carousel>
+        )}
+      </div>
     );
   }
 }
-
-export default Carousel;
+export default MyCarousel;
