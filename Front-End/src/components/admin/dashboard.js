@@ -14,7 +14,7 @@ function dashboard() {
         margin: "0 auto"
       }}
     >
-      <Tabs defaultActiveKey="3">
+      <Tabs defaultActiveKey="1">
         <TabPane tab="Post approval" key="1">
           <Post />
         </TabPane>
