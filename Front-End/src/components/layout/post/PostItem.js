@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { message, Icon, Popover, Button } from "antd";
+import { Popover, Button, Avatar } from "antd";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PostItem.scss";
 
@@ -23,15 +23,11 @@ function PostItem({ data, user, fetchPosts, history }) {
     try {
       // Make the request to like or unlike the post depending on condition
       const likeOrUnlike = !like.includes(user._id) ? "like" : "unlike";
-      await axios.patch(
-        `http://localhost:3000/api/post/${id}/${likeOrUnlike}`,
-        null,
-        {
-          headers: {
-            Authorization: token
-          }
+      await axios.patch(`/api/post/${id}/${likeOrUnlike}`, null, {
+        headers: {
+          Authorization: token
         }
-      );
+      });
       // Fetch the posts after the request
       fetchPosts(token);
     } catch (err) {
@@ -43,7 +39,7 @@ function PostItem({ data, user, fetchPosts, history }) {
   const handleDelete = async id => {
     const token = JSON.parse(localStorage.getItem("authToken"));
     try {
-      await axios.delete(`http://localhost:3000/api/post/${id}`, {
+      await axios.delete(`/api/post/${id}`, {
         headers: {
           Authorization: token
         }
@@ -60,10 +56,18 @@ function PostItem({ data, user, fetchPosts, history }) {
       <header className="post-header-section">
         <div className="post-profile">
           <div className="post-profile-img" title="name profile picture">
-            <img
-              src={picture ? picture : "https://tinyurl.com/utjf6jw"}
-              alt={`${name} profile`}
-            />
+            {picture ? (
+              <img alt="profile" className="user-profile-img" src={picture} />
+            ) : (
+              <Avatar
+                style={{
+                  color: "#f56a00",
+                  backgroundColor: "#fde3cf"
+                }}
+              >
+                {name.split(" ")[0]}
+              </Avatar>
+            )}
           </div>
           <div className="post-profile-name">
             <h2 title="User Profile name">{name}</h2>
@@ -76,10 +80,6 @@ function PostItem({ data, user, fetchPosts, history }) {
                 {/* Provide the delete option if only user owns the post */}
                 {author._id === user._id ? (
                   <>
-                    <li className="more-list-item">
-                      {/* TODO: Add make Ad functionality */}
-                      <button className="more-list-btn">Make Ad</button>
-                    </li>
                     <li className="more-list-item">
                       <button
                         className="more-list-btn"
@@ -98,9 +98,7 @@ function PostItem({ data, user, fetchPosts, history }) {
                     </li>
                   </>
                 ) : (
-                  <li className="more-list-item">
-                    <button className="more-list-btn">Get Ads</button>
-                  </li>
+                  ""
                 )}
               </ul>
             }
