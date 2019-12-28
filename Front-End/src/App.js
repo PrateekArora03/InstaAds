@@ -63,10 +63,6 @@ class App extends React.Component {
                 return <Profile data={this.state.user} />;
               }}
             />
-
-            <Route exact path="/login">
-              <Redirect to="/" />
-            </Route>
             <Route exact path="/new" component={PostUpload} />
             <Route exact path="/newBoost" component={PostUpload} />
             <Route exact path="/edit/:id" component={PostUpload} />
@@ -77,9 +73,6 @@ class App extends React.Component {
         return (
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route exact path="/login">
-              <Redirect to="/" />
-            </Route>
             <Route component={Page404} />
           </Switch>
         );
@@ -91,9 +84,7 @@ class App extends React.Component {
         <Loader />
       ) : (
         <Switch>
-          <Route exact path="/">
-            <Redirect to="/login" />
-          </Route>
+          <Route exact path="/" render={() => <Home user={null} />} />
           <Route exact path="/register" component={Register} />
           <Route
             exact
@@ -109,9 +100,6 @@ class App extends React.Component {
   componentDidMount = async () => {
     if (localStorage.authToken) {
       this.fetchUser(JSON.parse(localStorage.authToken));
-    } else {
-      // If user isn't loged in then redirect it to login page
-      this.props.history.push("/login");
     }
   };
 
@@ -119,7 +107,11 @@ class App extends React.Component {
     return navigator.onLine ? (
       <div className="App">
         {/* Prevent to render header on login and register component */}
-        {!this.state.user ? "" : <Header user={this.state.user} />}
+        {this.state.user ? (
+          <Header user={this.state.user} />
+        ) : (
+          <Header user={null} />
+        )}
         {this.Routes(this.state.user)}
       </div>
     ) : (
