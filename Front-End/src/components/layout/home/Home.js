@@ -12,22 +12,16 @@ export default class Home extends Component {
   };
 
   async componentDidMount() {
-    if (localStorage.authToken) {
-      this.fetchPosts(JSON.parse(localStorage.getItem("authToken")));
-    }
+    this.fetchPosts();
   }
 
   /**
    * Fetches the recent posts
    * @param {string}
    */
-  fetchPosts = async authToken => {
+  fetchPosts = async () => {
     try {
-      let posts = await axios.get("http://localhost:3000/api/timeline", {
-        headers: {
-          Authorization: authToken
-        }
-      });
+      let posts = await axios.get("/api/timeline");
       this.setState({ posts: posts.data.posts });
     } catch (error) {
       console.error(error);
