@@ -36,7 +36,7 @@ class Profile extends React.Component {
       });
 
       const res = await axios.put(
-        "http://localhost:3000/api/profile/" + this.state.formData.username,
+        "/api/profile/" + this.state.formData.username,
         this.state.formData,
         {
           headers: {
