@@ -9,7 +9,6 @@ class MyCarousel extends React.Component {
   componentDidMount = async () => {
     try {
       const res = await axios.get("/api/carousel");
-      console.log(res.data.ads);
       this.setState({ banner: res.data.ads });
     } catch (error) {
       console.error(error);
