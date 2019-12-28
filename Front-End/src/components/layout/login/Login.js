@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./Login.scss";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { message } from "antd";
 
 class Login extends React.Component {
@@ -27,7 +27,7 @@ class Login extends React.Component {
       message.warning("Password must contain 6 letter.");
     } else {
       axios
-        .post(`http://localhost:3000/api/users/login`, this.state)
+        .post(`/api/users/login`, this.state)
         .then(res => {
           if (res.data.status === false) {
             message.error(res.data.message);
@@ -55,11 +55,6 @@ class Login extends React.Component {
         <div className="login-content">
           <div className="login-header">
             <h1 className="login-title">Sign In</h1>
-          </div>
-          <div className="link-container">
-            <Link className="link" to="/register">
-              Need an account?
-            </Link>
           </div>
           <form className="login-form" onSubmit={this.handleSubmit}>
             <input

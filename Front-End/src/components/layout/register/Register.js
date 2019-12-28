@@ -1,7 +1,5 @@
 import React from "react";
 import axios from "axios";
-import "../login/Login.scss";
-import { Link } from "react-router-dom";
 import { message } from "antd";
 
 export default class Register extends React.Component {
@@ -48,11 +46,6 @@ export default class Register extends React.Component {
         <div className="login-content">
           <div className="login-header">
             <h1 className="login-title">Register</h1>
-          </div>
-          <div className="link-container">
-            <Link className="link" to="/login">
-              Have an account?
-            </Link>
           </div>
           <form className="login-form" onSubmit={this.handleSubmit}>
             <input
