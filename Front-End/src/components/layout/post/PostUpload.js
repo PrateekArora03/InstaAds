@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { Input, Button, message } from "antd";
+import { withRouter } from "react-router-dom";
 
 import ImageUpload from "./ImageUpload";
-import axios from "axios";
-
-import { Input, Button, message } from "antd";
 
 import "./postupload.scss";
 
@@ -21,23 +21,20 @@ class PostUpload extends Component {
 
   async componentDidMount() {
     // It fetches the data if url has post id
+    console.log(this.props.match.params);
     if (this.props.match.params.id) {
-
       /* Change the state if*/
-      this.setState({isEdit: true});
+      this.setState({ isEdit: true });
 
       const postId = this.props.match.params.id;
       // Make the post fetch request
       const token = JSON.parse(localStorage.getItem("authToken"));
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/post/${postId}`,
-          {
-            headers: {
-              Authorization: token
-            }
+        const res = await axios.get(`/api/post/${postId}`, {
+          headers: {
+            Authorization: token
           }
-        );
+        });
         const post = res.data.post;
         // Update the state's postData with response
         this.setState({
@@ -65,15 +62,11 @@ class PostUpload extends Component {
     try {
       if (this.state.isEdit) {
         if (this.state.postData.description || this.state.postData.media) {
-          const post = await axios.put(
-            "http://localhost:3000/api/post",
-            this.state.postData,
-            {
-              headers: {
-                Authorization: JSON.parse(localStorage.getItem("authToken"))
-              }
+          const post = await axios.put("/api/post", this.state.postData, {
+            headers: {
+              Authorization: JSON.parse(localStorage.getItem("authToken"))
             }
-          );
+          });
           this.setState({
             postData: { description: "", media: "" },
             loading: false
@@ -84,15 +77,11 @@ class PostUpload extends Component {
         }
       } else {
         if (this.state.postData.description && this.state.postData.media) {
-          const post = await axios.post(
-            "http://localhost:3000/api/post",
-            this.state.postData,
-            {
-              headers: {
-                Authorization: JSON.parse(localStorage.getItem("authToken"))
-              }
+          const post = await axios.post("/api/post", this.state.postData, {
+            headers: {
+              Authorization: JSON.parse(localStorage.getItem("authToken"))
             }
-          );
+          });
           this.setState({
             postData: { description: "", media: "" },
             loading: false
@@ -129,4 +118,4 @@ class PostUpload extends Component {
     );
   }
 }
-export default PostUpload;
+export default withRouter(PostUpload);
