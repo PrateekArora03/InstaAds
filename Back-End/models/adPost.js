@@ -5,12 +5,12 @@ const Schema = mongoose.Schema;
 const adPostSchema = new Schema(
   {
     description: { type: String, required: true },
-    location: { type: String, required: true },
+    location: { type: String },
     author: { type: Object, required: true },
-    expireDate: { type: Date, required: true },
+    expireDate: { type: Date },
     isApprove: { type: Boolean, default: false },
     like: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    views: { type: Number, default: 0, required: true }
+    views: { type: Number, default: 0 }
   },
   { timestamps: true }
 );
