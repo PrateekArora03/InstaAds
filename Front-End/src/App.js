@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import Header from "./components/layout/header/Header";
 import Profile from "./components/layout/profile/Profile";
