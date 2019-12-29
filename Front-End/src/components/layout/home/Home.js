@@ -8,6 +8,7 @@ import "./Home.scss";
 export default class Home extends Component {
   state = {
     posts: null,
+    ads: null,
     isLoading: true
   };
 
@@ -21,8 +22,13 @@ export default class Home extends Component {
    */
   fetchPosts = async () => {
     try {
-      let posts = await axios.get("/api/timeline");
-      this.setState({ posts: posts.data.posts });
+      let res = await axios.get("/api/timeline");
+      const posts = [];
+      res.data.posts.forEach((post, i) => {
+        if (i % 3 === 0) posts.push(res.data.ads[i / 3]);
+        posts.push(post);
+      });
+      this.setState({ posts });
     } catch (error) {
       console.error(error);
     }
