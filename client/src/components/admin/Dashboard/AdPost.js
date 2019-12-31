@@ -1,14 +1,18 @@
 import React from "react";
 import axios from "axios";
 
-import { Table, Divider, message } from "antd";
+import { Table, Divider, message, Modal, InputNumber } from "antd";
 
 const { Column } = Table;
 
 class DashBoard extends React.Component {
   state = {
     posts: [],
-    onGoingAds: []
+    onGoingAds: [],
+    days: null,
+    visible: false,
+    postId: null,
+    confirmLoading: false
   };
 
   fetchPosts = async authToken => {
@@ -19,28 +23,55 @@ class DashBoard extends React.Component {
         }
       });
       // Update the state
-      this.setState({ posts: res.data.posts, onGoingAds: res.data.onGoingAds });
+      this.setState({
+        ...this.state,
+        posts: res.data.posts,
+        onGoingAds: res.data.onGoingAds,
+        days: 0,
+        visible: false,
+        postId: null,
+        confirmLoading: false
+      });
     } catch (err) {
       console.error(err);
     }
   };
 
-  approvePost = async id => {
+  approvePost = async () => {
+    this.setState({
+      ...this.state,
+      confirmLoading: true
+    });
     const token = JSON.parse(localStorage.getItem("authToken"));
-    try {
-      const res = await axios.patch("/api/admin/adPost/" + id, null, {
-        headers: {
-          Authorization: token
+    if (this.state.postId && this.state.days) {
+      try {
+        const res = await axios.patch(
+          "/api/admin/adPost/" + this.state.postId,
+          { days: this.state.days },
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+        if (res.data.status === true) {
+          this.setState({
+            ...this.state,
+            confirmLoading: false,
+            days: 0,
+            visible: false,
+            postId: null
+          });
+          this.fetchPosts(token);
+          message.success("approve success");
+        } else {
+          message.error("Failed to approve");
         }
-      });
-      if (res.data.status === "success") {
-        this.fetchPosts(token);
-        message.success("approve success");
-      } else {
-        message.error("Failed to approve");
+      } catch (err) {
+        console.error(err);
       }
-    } catch (err) {
-      console.error(err);
+    } else {
+      message.error("Please fill valid days");
     }
   };
 
@@ -63,6 +94,24 @@ class DashBoard extends React.Component {
     }
   };
 
+  showModal = id => {
+    this.setState({
+      ...this.state,
+      visible: true,
+      postId: id
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      ...this.state,
+      visible: false,
+      postId: null,
+      days: 0,
+      confirmLoading: false
+    });
+  };
+
   componentDidMount = () => {
     if (localStorage.authToken) {
       this.fetchPosts(JSON.parse(localStorage.authToken));
@@ -72,6 +121,21 @@ class DashBoard extends React.Component {
   render() {
     return (
       <div>
+        <Modal
+          title="Approve Post"
+          visible={this.state.visible}
+          onOk={this.approvePost}
+          confirmLoading={this.state.confirmLoading}
+          onCancel={this.handleCancel}
+        >
+          <InputNumber
+            placeholder="Ads expiry in days"
+            onChange={e => {
+              this.setState({ ...this.state, days: e });
+            }}
+            value={this.state.days}
+          />
+        </Modal>
         <Table rowKey="_id" dataSource={this.state.posts}>
           <Column title="Author" dataIndex="author.name" key="author" />
           <Column
@@ -94,7 +158,7 @@ class DashBoard extends React.Component {
               <span>
                 <a
                   title="Approve Post"
-                  onClick={() => this.approvePost(postData._id)}
+                  onClick={() => this.showModal(postData._id)}
                 >
                   Approve
                 </a>
@@ -134,7 +198,7 @@ class DashBoard extends React.Component {
             render={(text, postData) => (
               <span>
                 <a
-                  title="Delete Post"
+                  title="Delete Ads"
                   onClick={() => this.deletePost(postData._id)}
                 >
                   Delete
