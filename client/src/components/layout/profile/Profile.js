@@ -1,6 +1,15 @@
 import React from "react";
 import axios from "axios";
-import { Avatar, Modal, Input, Select, message } from "antd";
+import {
+  Avatar,
+  Modal,
+  Input,
+  Select,
+  message,
+  PageHeader,
+  Statistic,
+  Descriptions
+} from "antd";
 
 import "./Profile.scss";
 
@@ -84,26 +93,36 @@ class Profile extends React.Component {
     }
   };
 
-  fetchUser = async username => {
-    try {
-      const res = await axios.get(`/api/profile/${username}`, {
-        headers: {
-          Authorization: JSON.parse(localStorage.authToken)
-        }
-      });
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // fetchUser = async username => {
+  //   try {
+  //     const res = await axios.get(`/api/profile/${username}`, {
+  //       headers: {
+  //         Authorization: JSON.parse(localStorage.authToken)
+  //       }
+  //     });
+  //     console.log(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   componentDidMount = async () => {
     this.setState({ ...this.state, formData: this.props.data });
-    this.fetchUser(this.props.data.username);
   };
 
   render() {
-    const { name, picture, description } = this.state.formData;
+    const {
+      name,
+      picture,
+      description,
+      email,
+      contact,
+      gender,
+      city,
+      address,
+      qualification,
+      country
+    } = this.state.formData;
     return (
       <div className="profile-container">
         <div className="profile container center">
@@ -133,6 +152,22 @@ class Profile extends React.Component {
             </div>
           </div>
         </div>
+        {/* sjfdhjhf */}
+        <div className="main">
+          <Descriptions size="small" column={2}>
+            <Descriptions.Item label="email">{email}</Descriptions.Item>
+            <Descriptions.Item label="Contact">{contact}</Descriptions.Item>
+            <Descriptions.Item label="Gender">
+              {gender && gender.toUpperCase()}
+            </Descriptions.Item>
+            <Descriptions.Item label="Qualification">
+              {qualification}
+            </Descriptions.Item>
+            <Descriptions.Item label="City">{city}</Descriptions.Item>
+            <Descriptions.Item label="Country">{country}</Descriptions.Item>
+          </Descriptions>
+        </div>
+        {/* hdsef */}
         <Modal
           title="Edit Profile"
           visible={this.state.visible}
