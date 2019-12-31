@@ -7,9 +7,6 @@ import "./Profile.scss";
 const Option = Select;
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     visible: false,
     confirmLoading: false,
@@ -18,7 +15,9 @@ class Profile extends React.Component {
       email: "",
       username: "",
       picture: "",
-      description: ""
+      description: "",
+      post: [],
+      adPost: []
     }
   };
 
@@ -29,7 +28,6 @@ class Profile extends React.Component {
   };
 
   handleOk = async () => {
-    console.log("hhe");
     try {
       this.setState({
         confirmLoading: true
@@ -86,8 +84,22 @@ class Profile extends React.Component {
     }
   };
 
+  fetchUser = async username => {
+    try {
+      const res = await axios.get(`/api/profile/${username}`, {
+        headers: {
+          Authorization: JSON.parse(localStorage.authToken)
+        }
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   componentDidMount = async () => {
     this.setState({ ...this.state, formData: this.props.data });
+    this.fetchUser(this.props.data.username);
   };
 
   render() {

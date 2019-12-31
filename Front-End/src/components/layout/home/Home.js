@@ -25,7 +25,7 @@ export default class Home extends Component {
       let res = await axios.get("/api/timeline");
       const posts = [];
       res.data.posts.forEach((post, i) => {
-        if (i % 3 === 0) posts.push(res.data.ads[i / 3]);
+        if (i % 3 === 0 && res.data.ads[i / 3]) posts.push(res.data.ads[i / 3]);
         posts.push(post);
       });
       this.setState({ posts });

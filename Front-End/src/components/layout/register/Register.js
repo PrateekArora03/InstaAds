@@ -28,7 +28,7 @@ export default class Register extends React.Component {
     }
     // Post the user data
     else {
-      const res = await axios
+      await axios
         .post(`http://localhost:3000/api/users/register`, this.state)
         .then(data => {
           message.success("your successful Register Now you can login");

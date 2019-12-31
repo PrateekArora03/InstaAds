@@ -12,7 +12,7 @@ class DashBoard extends React.Component {
 
   fetchPosts = async authToken => {
     try {
-      const res = await axios.get("http://localhost:3000/api/admin/dashboard", {
+      const res = await axios.get("/api/admin/", {
         headers: {
           Authorization: authToken
         }
@@ -27,15 +27,11 @@ class DashBoard extends React.Component {
   approvePost = async id => {
     const token = JSON.parse(localStorage.getItem("authToken"));
     try {
-      const res = await axios.patch(
-        "http://localhost:3000/api/admin/post/" + id,
-        null,
-        {
-          headers: {
-            Authorization: token
-          }
+      const res = await axios.patch("/api/admin/post/" + id, null, {
+        headers: {
+          Authorization: token
         }
-      );
+      });
       if (res.data.status === "success") {
         this.fetchPosts(token);
         message.success("approve success");
@@ -50,7 +46,7 @@ class DashBoard extends React.Component {
   deletePost = async id => {
     const token = JSON.parse(localStorage.getItem("authToken"));
     try {
-      const res = await axios.delete(`http://localhost:3000/api/post/${id}`, {
+      const res = await axios.delete(`/api/post/${id}`, {
         headers: {
           Authorization: token
         }
@@ -76,20 +72,33 @@ class DashBoard extends React.Component {
     return (
       <Table rowKey="_id" dataSource={this.state.posts}>
         <Column title="Author" dataIndex="author.name" key="author" />
-        <Column title="Description" dataIndex="description" key="description" />
+        <Column
+          title="Post"
+          key="media"
+          render={(text, postData) => (
+            <a target="_blank" rel="noopener noreferrer" href={postData.media}>
+              {postData.description}
+            </a>
+          )}
+        />
         <Column
           title="Action"
           key="action"
           render={(text, postData) => (
             <span>
               <a
-                title="author.name"
+                title="Approve Post"
                 onClick={() => this.approvePost(postData._id)}
               >
                 Approve
               </a>
               <Divider type="vertical" />
-              <a onClick={() => this.deletePost(postData._id)}>Delete</a>
+              <a
+                title="Delete Post"
+                onClick={() => this.deletePost(postData._id)}
+              >
+                Delete
+              </a>
             </span>
           )}
         />

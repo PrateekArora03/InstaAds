@@ -64,17 +64,17 @@ function Header(props) {
               </li>
             </ul>
           </nav>
-        ) : props ? (
-          <div>
-            <Link style={{ marginRight: "10px" }} to="/login">
-              <Button type="primary">Login</Button>
-            </Link>
-            <Link to="/register">
-              <Button type="ghost">Sign up</Button>
-            </Link>
-          </div>
         ) : (
-          ""
+          props && (
+            <div>
+              <Link style={{ marginRight: "10px" }} to="/login">
+                <Button type="primary">Login</Button>
+              </Link>
+              <Link to="/register">
+                <Button type="ghost">Sign up</Button>
+              </Link>
+            </div>
+          )
         )}
       </div>
     </header>

@@ -65,7 +65,6 @@ class App extends React.Component {
             />
             <Route exact path="/new" component={PostUpload} />
             <Route exact path="/newBoost" component={PostUpload} />
-            <Route exact path="/edit/:id" component={PostUpload} />
             <Route component={Page404} />
           </Switch>
         );

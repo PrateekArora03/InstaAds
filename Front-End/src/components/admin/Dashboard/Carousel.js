@@ -52,7 +52,6 @@ class Carousel extends Component {
   componentDidMount = async () => {
     try {
       const res = await axios.get("/api/carousel/");
-      console.log(res.data);
       this.setState({ banner: res.data.ads });
     } catch (error) {
       console.error(error);
@@ -61,7 +60,6 @@ class Carousel extends Component {
 
   render() {
     const check = this.state.banner.toggle === "image" ? true : false;
-    console.log(check);
     return (
       this.state.banner && (
         <div className="carousel-container">

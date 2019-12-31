@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Input, Button, message } from "antd";
+import { Input, Button, message, Switch } from "antd";
 import { withRouter } from "react-router-dom";
 
 import ImageUpload from "./ImageUpload";
@@ -12,43 +12,22 @@ const { TextArea } = Input;
 class PostUpload extends Component {
   state = {
     loading: false,
-    isEdit: false,
     postData: {
       description: "",
-      media: ""
+      media: "",
+      isImage: true
     }
   };
 
-  async componentDidMount() {
-    // It fetches the data if url has post id
-    console.log(this.props.match.params);
-    if (this.props.match.params.id) {
-      /* Change the state if*/
-      this.setState({ isEdit: true });
-
-      const postId = this.props.match.params.id;
-      // Make the post fetch request
-      const token = JSON.parse(localStorage.getItem("authToken"));
-      try {
-        const res = await axios.get(`/api/post/${postId}`, {
-          headers: {
-            Authorization: token
-          }
-        });
-        const post = res.data.post;
-        // Update the state's postData with response
-        this.setState({
-          postData: { description: post.description, media: post.media }
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+  toggle = e => {
+    this.setState({
+      postData: { ...this.state.postData, isImage: e, media: "" }
+    });
+  };
 
   handleChange = e => {
     let obj = { ...this.state.postData };
-    obj.description = e.target.value;
+    obj[e.target.name] = e.target.value;
     this.setState({ postData: obj });
   };
 
@@ -60,36 +39,25 @@ class PostUpload extends Component {
   postDataSend = async () => {
     this.setState({ loading: true });
     try {
-      if (this.state.isEdit) {
-        if (this.state.postData.description || this.state.postData.media) {
-          const post = await axios.put("/api/post", this.state.postData, {
+      if (this.state.postData.description && this.state.postData.media) {
+        await axios.post(
+          `/api/${this.props.match.path === "/new" ? "post" : "adpost"}`,
+          this.state.postData,
+          {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("authToken"))
             }
-          });
-          this.setState({
-            postData: { description: "", media: "" },
-            loading: false
-          });
-        } else {
-          message.warning("Please Add Post Content and media");
-          this.setState({ loading: false });
-        }
+          }
+        );
+        message.success(
+          this.props.match.path === "/new"
+            ? "Your post is being review by admin"
+            : "Admin will mail you regarding the ads!"
+        );
+        this.props.history.push("/");
       } else {
-        if (this.state.postData.description && this.state.postData.media) {
-          const post = await axios.post("/api/post", this.state.postData, {
-            headers: {
-              Authorization: JSON.parse(localStorage.getItem("authToken"))
-            }
-          });
-          this.setState({
-            postData: { description: "", media: "" },
-            loading: false
-          });
-        } else {
-          message.warning("Please Add Post Content and media");
-          this.setState({ loading: false });
-        }
+        message.warning("Please Add Post Content and media");
+        this.setState({ loading: false });
       }
     } catch (err) {
       console.error(err);
@@ -102,17 +70,35 @@ class PostUpload extends Component {
         <div className="input-post">
           <TextArea
             rows={6}
+            placeholder="Description"
+            name="description"
             value={this.state.postData.description}
             onChange={this.handleChange}
           />
-          <ImageUpload imageUpdate={this.imageUpdate} />
+          <Switch
+            style={{ float: "right" }}
+            checkedChildren="Image"
+            unCheckedChildren="Video"
+            defaultChecked={true}
+            onClick={this.toggle}
+          />
+          {this.state.postData.isImage ? (
+            <ImageUpload imageUpdate={this.imageUpdate} />
+          ) : (
+            <Input
+              name="media"
+              value={this.state.postData.media}
+              onChange={this.handleChange}
+              placeholder="please enter youtube video link!"
+            />
+          )}
         </div>
         <Button
           type="primary"
           loading={this.state.loading}
           onClick={this.postDataSend}
         >
-          Post
+          {this.props.match.path === "/new" ? "Create Post" : "Create Ad"}
         </Button>
       </form>
     );
