@@ -82,11 +82,12 @@ router.patch("/post/:postid", async (req, res) => {
 // Patch ad post
 router.patch("/adpost/:adpostid", async (req, res) => {
   // Checks if the user is admin
+  const expireDate = new Date(Date.now() + req.body.days * 24 * 60 * 60 * 1000);
   try {
     if (req.user.isAdmin) {
       const post = await adPost.findOneAndUpdate(
         { _id: req.params.adpostid },
-        { isApprove: true }
+        { isApprove: true, expireDate }
       );
       if (post === null) {
         return res.json({
@@ -94,7 +95,7 @@ router.patch("/adpost/:adpostid", async (req, res) => {
           status: false
         });
       }
-      return res
+      res
         .status(200)
         .json({ message: "Ad post approved successfully", status: true });
     } else {
