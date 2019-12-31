@@ -1,15 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {
-  Avatar,
-  Modal,
-  Input,
-  Select,
-  message,
-  PageHeader,
-  Statistic,
-  Descriptions
-} from "antd";
+import { Avatar, Modal, Input, Select, message, Descriptions } from "antd";
 
 import "./Profile.scss";
 
@@ -119,7 +110,6 @@ class Profile extends React.Component {
       contact,
       gender,
       city,
-      address,
       qualification,
       country
     } = this.state.formData;
