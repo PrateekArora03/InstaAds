@@ -7,6 +7,7 @@ const postSchema = Schema(
   {
     description: { type: String, required: true },
     media: String,
+    isImage: { type: Boolean, default: true },
     location: String,
     author: { type: Object, required: true },
     isApprove: { type: Boolean, default: false },
