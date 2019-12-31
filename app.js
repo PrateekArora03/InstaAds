@@ -21,18 +21,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Connect mongoose
-mongoose.connect(
-  process.env.MONGOURL,
-  { useUnifiedTopology: true, useNewUrlParser: true },
-  err => {
-    if (err) {
-      console.log(err);
-    } else {
-      require("./utils/seed.js");
-      console.log("success mongodb connected");
-    }
+mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true }, err => {
+  if (err) {
+    console.log(err);
+  } else {
+    require("./utils/seed.js");
+    console.log("success mongodb connected");
   }
-);
+});
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
