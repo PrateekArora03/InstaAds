@@ -21,14 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-Back-End/yarn.lock
-Front-End/yarn.lock
 
-#Front-End
-/Front-End/node_modules
-/Front-End/package-lock.json
-Back-End/package-lock.json
-Back-End/node_modules
-Back-End/.env
-Back-End/public/uploads/*
-Front-End/yarn.lock
+#Custom
+node_modules
+yarn.lock
+package-lock.json
+.env
+/public/uploads/*
