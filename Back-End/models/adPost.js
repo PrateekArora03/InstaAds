@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const adPostSchema = new Schema(
   {
     description: { type: String, required: true },
+    media: String,
+    isImage: { type: Boolean, default: true },
     location: { type: String },
     author: { type: Object, required: true },
     expireDate: { type: Date },
