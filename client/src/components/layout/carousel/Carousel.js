@@ -17,31 +17,37 @@ class MyCarousel extends React.Component {
   render() {
     return (
       <div style={{ marginTop: "20px" }}>
-        {this.state.banner && (
-          <Carousel
-            autoPlay={5000}
-            animationSpeed={2000}
-            infinite
-            slidesPerPage={1}
-          >
-            <img
-              style={{ width: "100%", height: "auto" }}
-              src={this.state.banner.carousel.A}
-            />
-            <img
-              style={{ width: "100%", height: "auto" }}
-              src={this.state.banner.carousel.B}
-            />
-            <img
-              style={{ width: "100%", height: "auto" }}
-              src={this.state.banner.carousel.C}
-            />
-            <img
-              style={{ width: "100%", height: "auto" }}
-              src={this.state.banner.carousel.D}
-            />
-          </Carousel>
-        )}
+        {this.state.banner &&
+          (this.state.banner.toggle === "image" ? (
+            <Carousel
+              autoPlay={5000}
+              animationSpeed={2000}
+              infinite
+              slidesPerPage={1}
+            >
+              <img
+                style={{ width: "100%", height: "auto" }}
+                src={this.state.banner.carousel.A}
+              />
+              <img
+                style={{ width: "100%", height: "auto" }}
+                src={this.state.banner.carousel.B}
+              />
+              <img
+                style={{ width: "100%", height: "auto" }}
+                src={this.state.banner.carousel.C}
+              />
+              <img
+                style={{ width: "100%", height: "auto" }}
+                src={this.state.banner.carousel.D}
+              />
+            </Carousel>
+          ) : (
+            <div
+              style={{ textAlign: "center" }}
+              dangerouslySetInnerHTML={{ __html: this.state.banner.video }}
+            ></div>
+          ))}
       </div>
     );
   }
