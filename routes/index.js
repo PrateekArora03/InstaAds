@@ -17,6 +17,16 @@ router.get("/", async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(6);
     res.json({ message: true, status: true, posts, ads });
+    await posts.forEach(async post => {
+      const data = await Post.findOne({ _id: post._id });
+      data.views = data.views + 1;
+      data.save();
+    });
+    await ads.forEach(async ad => {
+      const data = await AdPost.findOne({ _id: ad._id });
+      data.views = data.views + 1;
+      data.save();
+    });
   } catch (error) {
     console.log(error);
     res.status(401).json({ message: "There's an error", status: false });
