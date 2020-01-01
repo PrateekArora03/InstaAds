@@ -107,7 +107,7 @@ class App extends React.Component {
       <div className="App">
         {/* Prevent to render header on login and register component */}
         {this.state.user ? (
-          <Header user={this.state.user} />
+          <Header user={this.state.user} logOutUser={this.logOutUser} />
         ) : (
           <Header user={null} />
         )}

@@ -62,19 +62,32 @@ function Header(props) {
                   </svg>
                 </Link>
               </li>
+              <li>
+                <Icon
+                  style={{ cursor: "pointer" }}
+                  title="Logout"
+                  onClick={() => props.logOutUser()}
+                  type="logout"
+                />
+              </li>
             </ul>
           </nav>
+        ) : !props.user ? (
+          <div>
+            <Link style={{ marginRight: "10px" }} to="/login">
+              <Button type="primary">Login</Button>
+            </Link>
+            <Link to="/register">
+              <Button type="ghost">Sign up</Button>
+            </Link>
+          </div>
         ) : (
-          props && (
-            <div>
-              <Link style={{ marginRight: "10px" }} to="/login">
-                <Button type="primary">Login</Button>
-              </Link>
-              <Link to="/register">
-                <Button type="ghost">Sign up</Button>
-              </Link>
-            </div>
-          )
+          <Icon
+            style={{ cursor: "pointer" }}
+            title="Logout"
+            onClick={() => props.logOutUser()}
+            type="logout"
+          />
         )}
       </div>
     </header>
