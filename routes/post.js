@@ -34,6 +34,17 @@ router.post("/", async (req, res) => {
   // Set request body author
   req.body.author = req.user;
   try {
+    if (!req.body.isImage) {
+      if (req.body.media.includes("youtube.com/watch")) {
+        req.body.media = req.body.media.split("v=")[1].substring(0, 11);
+      } else if (req.body.media.includes("youtu.be")) {
+        req.body.media = req.body.media.split("be/")[1].substring(0, 11);
+      } else {
+        return res
+          .status(400)
+          .json({ message: "Please enter vaild url", status: false });
+      }
+    }
     const post = await Post.create(req.body);
     const user = await User.findByIdAndUpdate(
       req.user.id,
