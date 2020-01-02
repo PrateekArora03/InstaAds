@@ -34,7 +34,7 @@ function Header(props) {
                   </Button>
                 </Dropdown>
               </li>
-              <li>
+              <li className="home-profile">
                 <Link title="Home" to="/">
                   <svg
                     aria-label="Home"
