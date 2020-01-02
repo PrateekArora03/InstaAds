@@ -143,3 +143,11 @@
     fill: red;
   }
 }
+.youtube {
+  width: 692px;
+  height: 389px;
+  @media screen and (max-width: 568px) {
+    width: 97vw;
+    height: 45vh;
+  }
+}
