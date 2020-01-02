@@ -10,7 +10,7 @@ function PostItem({ data, user, fetchPosts, history }) {
   const [visible, toggleVisible] = useState(false);
 
   // Destructur the variables from data object
-  const { author, media, description, like, _id, expireDate } = data;
+  const { author, media, description, like, _id, expireDate, isImage } = data;
 
   const { name, picture } = author;
 
@@ -84,14 +84,6 @@ function PostItem({ data, user, fetchPosts, history }) {
                     {/* Provide the delete option if only user owns the post */}
                     {author._id === user._id ? (
                       <>
-                        {/* <li className="more-list-item">
-                          <button
-                            className="more-list-btn"
-                            onClick={() => history.push(`/edit/${_id}`)}
-                          >
-                            Edit
-                          </button>
-                        </li> */}
                         <li className="more-list-item">
                           <button
                             className="more-list-btn"
@@ -120,7 +112,17 @@ function PostItem({ data, user, fetchPosts, history }) {
         )}
       </header>
       <div className="post-img-section">
-        <img src={media} alt="business ad" />
+        {isImage ? (
+          <img src={media} alt="business ad" />
+        ) : (
+          <iframe
+            className="youtube"
+            src={`https://www.youtube.com/embed/${media}`}
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        )}
       </div>
       <footer className="post-footer-section">
         {user && (
@@ -136,14 +138,14 @@ function PostItem({ data, user, fetchPosts, history }) {
               </button>
               <span className="like-count">{like.length}</span>
             </span>
-            <span className="share-section">
+            {/* <span className="share-section">
               <svg viewBox="0 0 24 24" className="share-svg">
                 <g>
                   <path d="M17.53 7.47l-5-5c-.293-.293-.768-.293-1.06 0l-5 5c-.294.293-.294.768 0 1.06s.767.294 1.06 0l3.72-3.72V15c0 .414.336.75.75.75s.75-.336.75-.75V4.81l3.72 3.72c.146.147.338.22.53.22s.384-.072.53-.22c.293-.293.293-.767 0-1.06z"></path>
                   <path d="M19.708 21.944H4.292C3.028 21.944 2 20.916 2 19.652V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 .437.355.792.792.792h15.416c.437 0 .792-.355.792-.792V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 1.264-1.028 2.292-2.292 2.292z"></path>
                 </g>
               </svg>
-            </span>
+            </span> */}
           </div>
         )}
         <div className="description-section">
