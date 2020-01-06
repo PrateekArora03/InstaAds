@@ -13,7 +13,9 @@ router.get("/:username", async (req, res) => {
     const user = await User.findOne(
       { username: req.params.username },
       "-password -__v -createdAt -updatedAt -isAdmin"
-    ).populate("post adPost");
+    )
+      .populate("post")
+      .populate("adPost");
     if (!user) {
       return res
         .status(401)

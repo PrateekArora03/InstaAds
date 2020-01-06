@@ -11,9 +11,9 @@ router.post("/", async (req, res) => {
   req.body.author = req.user;
   try {
     const post = await AdPost.create(req.body);
-    const user = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.user.id,
-      { $push: { post: post.id } },
+      { $push: { adPost: post.id } },
       { safe: true, upsert: true, new: true }
     );
 
@@ -44,10 +44,7 @@ router.put("/:postid", async (req, res) => {
     const post = await AdPost.findById(req.params.postid);
     // Checks if the post has same author
     if (post.author._id == req.user.id) {
-      const updatePost = await AdPost.findByIdAndUpdate(
-        req.params.postid,
-        req.body
-      );
+      await AdPost.findByIdAndUpdate(req.params.postid, req.body);
       res.status(200).json({
         message: "Post updated successfully",
         status: "success"
@@ -66,7 +63,7 @@ router.delete("/:postid", async (req, res) => {
     const post = await AdPost.findById(req.params.postid);
     // Checks if the post has same author
     if (post.author._id == req.user.id || req.user.isAdmin) {
-      const deletePost = await AdPost.findByIdAndDelete(req.params.postid);
+      await AdPost.findByIdAndDelete(req.params.postid);
       const user = await User.findOneAndUpdate(
         { id: post.author.id },
         { $pull: { post: post.id } },

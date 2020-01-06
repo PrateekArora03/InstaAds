@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { Avatar, Modal, Input, Select, message, Descriptions } from "antd";
+import PostItem from "../post/PostItem";
+import { Avatar, Modal, Input, Select, message, Switch } from "antd";
 
 import "./Profile.scss";
 
@@ -15,10 +16,11 @@ class Profile extends React.Component {
       email: "",
       username: "",
       picture: "",
-      description: "",
-      post: [],
-      adPost: []
-    }
+      description: ""
+    },
+    post: [],
+    adPost: [],
+    checked: false
   };
 
   showModal = () => {
@@ -63,6 +65,10 @@ class Profile extends React.Component {
     }
   };
 
+  onChange = e => {
+    this.setState({ ...this.state, checked: e });
+  };
+
   handleCancel = () => {
     this.setState({
       visible: false,
@@ -84,21 +90,27 @@ class Profile extends React.Component {
     }
   };
 
-  // fetchUser = async username => {
-  //   try {
-  //     const res = await axios.get(`/api/profile/${username}`, {
-  //       headers: {
-  //         Authorization: JSON.parse(localStorage.authToken)
-  //       }
-  //     });
-  //     console.log(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  fetchUser = async username => {
+    try {
+      const res = await axios.get(`/api/profile/${username}`, {
+        headers: {
+          Authorization: JSON.parse(localStorage.authToken)
+        }
+      });
+      console.log(res.data);
+      this.setState({
+        ...this.state,
+        post: res.data.user.post,
+        adPost: res.data.user.adPost
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   componentDidMount = async () => {
     this.setState({ ...this.state, formData: this.props.data });
+    this.fetchUser(this.props.data.username);
   };
 
   render() {
@@ -130,34 +142,27 @@ class Profile extends React.Component {
               </Avatar>
             )}
           </div>
-          <div className="profile-details">
-            <div className="profile-main">
-              <h3 className="user-name">{name}</h3>
-              <div className="user-edit-link" onClick={this.showModal}>
-                Edit Profile
-              </div>
-            </div>
-            <div className="description-container">
+          <div className="profile-main">
+            <h3 className="user-name">{name}</h3>
+            <div className="user-des-container">
               <p className="user-description">{description}</p>
+              <p className="user-email user-det">{email}</p>
+              <p className="user-email user-det">{contact}</p>
             </div>
+            <div className="user-des-container">
+              <p className="user-gender user-det">
+                {gender && gender.toUpperCase()}
+              </p>
+              <p className="user-qualification user-det">{qualification}</p>
+              <p className="user-city user-det">{city}</p>
+              <p className="user-country user-det">{country}</p>
+            </div>
+
+            <button className="btn-edit-link" onClick={this.showModal}>
+              Edit Profile
+            </button>
           </div>
         </div>
-        {/* sjfdhjhf */}
-        <div className="main">
-          <Descriptions size="small" column={2}>
-            <Descriptions.Item label="email">{email}</Descriptions.Item>
-            <Descriptions.Item label="Contact">{contact}</Descriptions.Item>
-            <Descriptions.Item label="Gender">
-              {gender && gender.toUpperCase()}
-            </Descriptions.Item>
-            <Descriptions.Item label="Qualification">
-              {qualification}
-            </Descriptions.Item>
-            <Descriptions.Item label="City">{city}</Descriptions.Item>
-            <Descriptions.Item label="Country">{country}</Descriptions.Item>
-          </Descriptions>
-        </div>
-        {/* hdsef */}
         <Modal
           title="Edit Profile"
           visible={this.state.visible}
@@ -225,6 +230,37 @@ class Profile extends React.Component {
             name="qualification"
           />
         </Modal>
+        <div style={{ width: "80%" }}>
+          <Switch
+            checkedChildren="AdPost"
+            unCheckedChildren="Post"
+            style={{ float: "right" }}
+            onChange={this.onChange}
+          />
+        </div>
+        <div className="profile-post-div">
+          {this.state.post && !this.state.checked === true
+            ? this.state.post.map(post => (
+                <PostItem
+                  className="profile-post"
+                  key={post._id}
+                  user={this.props.user}
+                  fetchPosts={this.fetchPosts}
+                  data={post}
+                  view="profile"
+                />
+              ))
+            : this.state.adPost.map(post => (
+                <PostItem
+                  className="profile-post"
+                  key={post._id}
+                  user={this.props.user}
+                  fetchPosts={this.fetchPosts}
+                  data={post}
+                  view="profile"
+                />
+              ))}
+        </div>
       </div>
     );
   }

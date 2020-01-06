@@ -19,7 +19,7 @@ const userSchema = Schema(
     qualification: { type: String },
     password: { type: String, required: true, minlength: 6 },
     post: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    adPost: [{ type: Schema.Types.ObjectId, ref: "adPost" }],
+    adPost: [{ type: Schema.Types.ObjectId, ref: "AdPost" }],
     isAdmin: { type: Boolean, default: false }
   },
   { timestamps: true }
