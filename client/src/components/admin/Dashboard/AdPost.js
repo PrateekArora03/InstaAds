@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { Table, Divider, message, Modal, InputNumber } from "antd";
+import { Table, Divider, message, Modal, InputNumber, Popover } from "antd";
 
 const { Column } = Table;
 
@@ -137,7 +137,23 @@ class DashBoard extends React.Component {
           />
         </Modal>
         <Table rowKey="_id" dataSource={this.state.posts}>
-          <Column title="Author" dataIndex="author.name" key="author" />
+          <Column
+            title="Author"
+            key="author"
+            render={(text, postData) => (
+              <Popover
+                content={
+                  <div>
+                    <p>{postData.author.email}</p>
+                    <p>{postData.author.contact}</p>
+                  </div>
+                }
+                title={postData.author.name}
+              >
+                <div>{postData.author.name}</div>
+              </Popover>
+            )}
+          />
           <Column
             title="Post"
             key="media"
@@ -175,7 +191,23 @@ class DashBoard extends React.Component {
         </Table>
         <h1>ON GOING ADS</h1>
         <Table rowKey="_id" dataSource={this.state.onGoingAds}>
-          <Column title="Author" dataIndex="author.name" key="author" />
+          <Column
+            title="Author"
+            key="author"
+            render={(text, postData) => (
+              <Popover
+                content={
+                  <div>
+                    <p>{postData.author.email}</p>
+                    <p>{postData.author.contact}</p>
+                  </div>
+                }
+                title={postData.author.name}
+              >
+                <div>{postData.author.name}</div>
+              </Popover>
+            )}
+          />
           <Column
             title="Post"
             key="media"
