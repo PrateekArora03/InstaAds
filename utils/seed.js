@@ -12,7 +12,7 @@ Ad.find({}, (err, ads) => {
           D: "https://i.ibb.co/MgcrFzh/index.jpg"
         },
         video:
-          '<iframe width="692" height="389" src="https://www.youtube.com/embed/DyDfgMOUjCI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+          '<iframe width="692" height="240" src="https://www.youtube.com/embed/DyDfgMOUjCI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
         toggle: "image"
       }
     });

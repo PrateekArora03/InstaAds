@@ -169,6 +169,7 @@ class Profile extends React.Component {
           onOk={this.handleOk}
           confirmLoading={this.state.confirmLoading}
           onCancel={this.handleCancel}
+          className="input-margin"
         >
           <Input
             type="text"

@@ -71,7 +71,7 @@ class Carousel extends Component {
             onClick={this.toggle}
           />
           {check === true ? (
-            <div>
+            <div className="input-margin">
               <Input
                 placeholder="Banner Image  1"
                 value={this.state.banner.carousel.A}
@@ -98,7 +98,7 @@ class Carousel extends Component {
               />
             </div>
           ) : (
-            <div>
+            <div className="input-margin">
               <Input
                 placeholder="Video Link"
                 value={this.state.banner.video}

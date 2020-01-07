@@ -92,7 +92,7 @@ class PostUpload extends Component {
               name="media"
               value={this.state.postData.media}
               onChange={this.handleChange}
-              placeholder="please enter youtube video link!"
+              placeholder="Enter youtube video link!"
             />
           )}
         </div>
