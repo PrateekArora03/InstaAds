@@ -75,6 +75,7 @@ class PostUpload extends Component {
             value={this.state.postData.description}
             onChange={this.handleChange}
           />
+          <br />
           <Switch
             style={{ float: "right" }}
             checkedChildren="Image"
@@ -82,10 +83,12 @@ class PostUpload extends Component {
             defaultChecked={true}
             onClick={this.toggle}
           />
+          <br />
           {this.state.postData.isImage ? (
             <ImageUpload imageUpdate={this.imageUpdate} />
           ) : (
             <Input
+              style={{ marginTop: "10px", marginBottom: "10px" }}
               name="media"
               value={this.state.postData.media}
               onChange={this.handleChange}
@@ -94,7 +97,7 @@ class PostUpload extends Component {
           )}
         </div>
         <Button
-          type="primary"
+          type={this.props.match.path === "/new" ? "primary" : "danger"}
           loading={this.state.loading}
           onClick={this.postDataSend}
         >
