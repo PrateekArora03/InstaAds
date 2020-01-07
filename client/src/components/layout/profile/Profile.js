@@ -97,7 +97,6 @@ class Profile extends React.Component {
           Authorization: JSON.parse(localStorage.authToken)
         }
       });
-      console.log(res.data);
       this.setState({
         ...this.state,
         post: res.data.user.post,

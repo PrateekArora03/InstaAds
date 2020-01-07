@@ -133,6 +133,7 @@ function PostItem({ data, user, fetchPosts, view }) {
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            title="youtube"
           ></iframe>
         )}
       </div>
