@@ -1,0 +1,101 @@
+// Profile container
+// .profile-container {
+//   text-align: center;
+// }
+.profile {
+  display: flex;
+  align-items: center;
+  margin-top: 100px; // Remove the margin after adding the heading component to the same
+  // Media breakpoints
+  @media only screen and(max-width: 736px) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  // Profile image container
+  .profile-img-section {
+    height: 150px;
+    width: 150px;
+    @media screen and (max-width: 736px) {
+      justify-self: center;
+    }
+    // Image
+    .user-profile-img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+    }
+    //Avatar
+    span {
+      width: 100%;
+      height: 100%;
+      .ant-avatar-string {
+        transform: scale(0.946667) translate(-50%, 40%) !important;
+      }
+    }
+  }
+
+  // Profile details container
+  .profile-main {
+    margin-left: 25px;
+  }
+  .user-name {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+  }
+  // Edit profile button/link
+  .btn-edit-link {
+    border: 1px solid tomato;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    color: #262626;
+    padding: 1px 5px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+// User description container
+.description-container {
+  width: 100%;
+  // User description
+  .user-description {
+    text-align: left;
+    color: #262626;
+    width: 100%;
+  }
+}
+.user-des-container {
+  display: flex;
+  margin: 10px 0;
+}
+.user-det {
+  margin: 0 5px;
+  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 500;
+  color: grey;
+}
+
+.profile-post-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  width: 80%;
+  margin: 0 auto;
+}
+.post-profile-image {
+  height: 200px;
+}
+.input-margin {
+  input {
+    margin: 5px 0;
+  }
+}

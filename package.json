@@ -1,0 +1,24 @@
+{
+  "name": "instaads",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node ./bin/www",
+    "server": "nodemon ./bin/www",
+    "client": "npm start --prefix client",
+    "dev": "concurrently  \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "concurrently": "^5.0.2",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.8",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "nodemon": "^1.19.4"
+  }
+}
