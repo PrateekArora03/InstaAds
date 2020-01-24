@@ -7,10 +7,10 @@ function Header(props) {
   const menu = (
     <Menu>
       <Menu.Item key="1">
-        <Link to="/new">New Post</Link>
+        <Link to="/new">Post</Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/newBoost">Boost Post</Link>
+        <Link to="/newBoost">Ad Post</Link>
       </Menu.Item>
     </Menu>
   );
