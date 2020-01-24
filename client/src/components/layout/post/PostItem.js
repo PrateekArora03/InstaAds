@@ -46,7 +46,7 @@ function PostItem({ data, user, fetchPosts, view }) {
   };
 
   // Handle Delete
-  const handleDelete = async id => {
+  const handleDelete = async (id) => {
     const token = JSON.parse(localStorage.getItem("authToken"));
     try {
       await axios.delete(`/api/post/${id}`, {
@@ -119,7 +119,7 @@ function PostItem({ data, user, fetchPosts, view }) {
           </div>
         )}
       </header>
-      <div className="post-img-section">
+      <div className="post-img-section center-child">
         {isImage ? (
           <img
             className={view === "profile" ? "post-profile-image" : ""}
@@ -145,7 +145,7 @@ function PostItem({ data, user, fetchPosts, view }) {
                 className={
                   like.includes(user._id) ? "like-btn-liked" : "like-btn"
                 }
-                onClick={e => handleLike(_id, e)}
+                onClick={(e) => handleLike(_id, e)}
               >
                 {like.includes(user._id) ? <FaHeart /> : <FaRegHeart />}
               </button>
