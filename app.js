@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Connect mongoose
-mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true }, err => {
+mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true }, (err) => {
   if (err) {
     console.log(err);
   } else {
