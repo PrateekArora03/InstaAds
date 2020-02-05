@@ -1,7 +1,7 @@
 {
   "name": "instaads",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "app.js",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node ./bin/www",
