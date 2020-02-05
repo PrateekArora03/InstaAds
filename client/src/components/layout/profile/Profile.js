@@ -120,8 +120,11 @@ class Profile extends React.Component {
       email,
       contact,
       gender,
+      dateOfBirth,
+      timeOfBirth,
       city,
       qualification,
+      professionalQualification,
       country
     } = this.state.formData;
     return (
@@ -148,13 +151,24 @@ class Profile extends React.Component {
               <p className="user-email user-det">{email}</p>
               <p className="user-email user-det">{contact}</p>
             </div>
+            {(dateOfBirth || timeOfBirth) && (
+              <div className="user-des-container">
+                <p className="user-date user-det">{dateOfBirth}</p>
+                <p className="user-time user-det">{timeOfBirth}</p>
+              </div>
+            )}
             <div className="user-des-container">
               <p className="user-gender user-det">
                 {gender && gender.toUpperCase()}
               </p>
-              <p className="user-qualification user-det">{qualification}</p>
               <p className="user-city user-det">{city}</p>
               <p className="user-country user-det">{country}</p>
+            </div>
+            <div className="user-des-container">
+              <p className="user-qualification user-det">{qualification}</p>
+              <p className="user-qualification user-det">
+                {professionalQualification}
+              </p>
             </div>
 
             <button className="btn-edit-link" onClick={this.showModal}>
@@ -203,6 +217,20 @@ class Profile extends React.Component {
           </Select>
           <Input
             onChange={this.handleChange}
+            value={this.state.formData.timeOfBirth}
+            type="text"
+            placeholder="Time Of Birth HH-MM"
+            name="timeOfBirth"
+          />
+          <Input
+            onChange={this.handleChange}
+            value={this.state.formData.dateOfBirth}
+            type="text"
+            placeholder="Datre Of Birth DD-MM-YY"
+            name="dateOfBirth"
+          />
+          <Input
+            onChange={this.handleChange}
             value={this.state.formData.address}
             type="text"
             placeholder="Address"
@@ -228,6 +256,13 @@ class Profile extends React.Component {
             value={this.state.formData.qualification}
             placeholder="qualification"
             name="qualification"
+          />
+          <Input
+            type="text"
+            onChange={this.handleChange}
+            value={this.state.formData.professionalQualification}
+            placeholder="professional Qualification"
+            name="professionalQualification"
           />
         </Modal>
         <div style={{ width: "80%" }}>
