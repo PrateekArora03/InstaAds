@@ -20,16 +20,22 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
+//Set static folder
+app.use(express.static("client/build"));
 
 // Connect mongoose
-mongoose.connect(process.env.MONGOURL, { useNewUrlParser: true }, err => {
-  if (err) {
-    console.log(err);
-  } else {
-    require("./utils/seed.js");
-    console.log("success mongodb connected");
+mongoose.connect(
+  process.env.MONGOURL,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  err => {
+    if (err) {
+      console.log(err);
+    } else {
+      require("./utils/seed.js");
+      console.log("success mongodb connected");
+    }
   }
-});
+);
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
@@ -42,13 +48,8 @@ app.use("/api/adpost", adPostRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/carousel", carouselRouter);
 
-//serve static assests if in production
-if (process.env.NODE_ENV === "production") {
-  //Set static folder
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 module.exports = app;

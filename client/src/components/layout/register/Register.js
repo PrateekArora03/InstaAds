@@ -29,10 +29,14 @@ export default class Register extends React.Component {
     // Post the user data
     else {
       await axios
-        .post(`http://localhost:3000/api/users/register`, this.state)
-        .then(data => {
-          message.success("your successful Register Now you can login");
-          this.props.history.push("/login");
+        .post(`/api/users/register`, this.state)
+        .then(res => {
+          if (res.data.status == false) {
+            message.warning(res.data.message);
+          } else {
+            message.success("your successful Register Now you can login");
+            this.props.history.push("/login");
+          }
         })
         .catch(err => {
           console.error(err);

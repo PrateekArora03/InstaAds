@@ -50,7 +50,7 @@ class ImageUpload extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="http://localhost:3000/api/post/upload"
+          action="/api/post/upload"
           listType="picture-card"
           name="myImage"
           fileList={fileList}

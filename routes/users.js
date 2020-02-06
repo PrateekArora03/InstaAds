@@ -39,6 +39,30 @@ router.post("/login", async (req, res) => {
 
 /* Post register page */
 router.post("/register", async (req, res) => {
+  console.log(req.body);
+  let { email, password, name, username } = req.body;
+  if (!email && !password && !name && !username) {
+    return res.json({
+      status: false,
+      message: "Please fill all required details."
+    });
+  }
+  User.findOne({ email }, async (err, user) => {
+    if (user) {
+      return res.json({
+        status: false,
+        message: "Email already exist!"
+      });
+    }
+  });
+  User.findOne({ username }, async (err, user) => {
+    if (user) {
+      return res.json({
+        status: false,
+        message: "Username already exist!"
+      });
+    }
+  });
   User.create(req.body, (err, user) => {
     if (err) {
       console.log(err);
