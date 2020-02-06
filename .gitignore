@@ -26,6 +26,7 @@ yarn-error.log*
 node_modules
 yarn.lock
 package-lock.json
+client/package-lock.json
 .env
 /public/uploads/*
 client/node_modules
