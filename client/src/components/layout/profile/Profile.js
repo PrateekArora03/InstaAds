@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
-import PostItem from "../post/PostItem";
 import { Avatar, Modal, Input, Select, message, Switch } from "antd";
+
+import PostItem from "../post/PostItem";
+import ImageUpload from "../post/ImageUpload";
 
 import "./Profile.scss";
 
@@ -88,6 +90,12 @@ class Profile extends React.Component {
         formData: { ...this.state.formData, [e.target.name]: e.target.value }
       });
     }
+  };
+
+  imageUpdate = media => {
+    let obj = { ...this.state.formData };
+    obj.picture = media;
+    this.setState({ formData: obj });
   };
 
   fetchUser = async username => {
@@ -191,13 +199,7 @@ class Profile extends React.Component {
             name="name"
             onChange={this.handleChange}
           />
-          <Input
-            type="text"
-            value={this.state.formData.picture}
-            placeholder="Image url"
-            name="picture"
-            onChange={this.handleChange}
-          />
+          <ImageUpload imageUpdate={this.imageUpdate} />
           <Input
             type="number"
             value={this.state.formData.contact}

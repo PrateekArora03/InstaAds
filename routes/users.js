@@ -39,7 +39,6 @@ router.post("/login", async (req, res) => {
 
 /* Post register page */
 router.post("/register", async (req, res) => {
-  console.log(req.body);
   let { email, password, name, username } = req.body;
   if (!email && !password && !name && !username) {
     return res.json({
