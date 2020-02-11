@@ -9,13 +9,15 @@ router.get("/", async (req, res) => {
   try {
     const posts = await Post.find({ isApprove: true })
       .sort({ createdAt: -1 })
-      .limit(20);
+      .limit(20)
+      .populate("author");
     const ads = await AdPost.find({
       isApprove: true,
       expireDate: { $gte: Date.now() }
     })
       .sort({ createdAt: -1 })
-      .limit(6);
+      .limit(6)
+      .populate("author");
     res.json({ message: true, status: true, posts, ads });
     await posts.forEach(async post => {
       const data = await Post.findOne({ _id: post._id });

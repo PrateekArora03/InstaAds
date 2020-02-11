@@ -8,7 +8,6 @@ const upload = require("../utils/upload");
 // Protect the route
 
 router.post("/upload", (req, res) => {
-  console.log("Uploading");
   upload(req, res, err => {
     if (err) {
       console.log(err);
@@ -32,7 +31,7 @@ router.use(Auth.verToken);
 // Post request
 router.post("/", async (req, res) => {
   // Set request body author
-  req.body.author = req.user;
+  req.body.author = req.userId;
   try {
     if (!req.body.isImage) {
       if (req.body.media.includes("youtube.com/watch")) {
@@ -46,8 +45,9 @@ router.post("/", async (req, res) => {
       }
     }
     const post = await Post.create(req.body);
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
+
+    await User.findByIdAndUpdate(
+      req.userId,
       { $push: { post: post.id } },
       { safe: true, upsert: true, new: true }
     );
@@ -76,8 +76,9 @@ router.get("/:postId", async (req, res) => {
 router.put("/:postid", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postid);
+    const user = await User.findById(req.userId);
     // Checks if the post has same author
-    if (post.author._id == req.user.id) {
+    if (post.author._id == user.id) {
       const updatePost = await Post.findByIdAndUpdate(
         req.params.postid,
         req.body
@@ -98,8 +99,9 @@ router.put("/:postid", async (req, res) => {
 router.delete("/:postid", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postid);
+    const user = await User.findById(req.userId);
     // Checks if the post has same author
-    if (post.author._id == req.user.id || req.user.isAdmin) {
+    if (post.author._id == user.id || user.isAdmin) {
       const deletePost = await Post.findByIdAndDelete(req.params.postid);
       const user = await User.findOneAndUpdate(
         { id: post.author.id },
@@ -123,13 +125,15 @@ router.delete("/:postid", async (req, res) => {
 router.patch("/:postid/like", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postid);
+    const user = await User.findById(req.userId);
+
     // Checks if post liked already
-    if (post.like.includes(req.user.id)) {
+    if (post.like.includes(user.id)) {
       return res.json({ message: "Post liked already", status: false });
     } else {
       const updatePost = await Post.findByIdAndUpdate(
         req.params.postid,
-        { $push: { like: req.user.id } },
+        { $push: { like: req.userId } },
         { safe: true, upsert: true, new: true }
       );
       res.status(200).json({
@@ -147,11 +151,13 @@ router.patch("/:postid/like", async (req, res) => {
 router.patch("/:postid/unlike", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postid);
+    const user = await User.findById(req.userId);
+
     // Checks if post liked already
-    if (post.like.includes(req.user.id)) {
+    if (post.like.includes(user.id)) {
       const updatePost = await Post.findByIdAndUpdate(
         req.params.postid,
-        { $pull: { like: req.user.id } },
+        { $pull: { like: req.userId } },
         { safe: true, upsert: true, new: true }
       );
       res.status(200).json({

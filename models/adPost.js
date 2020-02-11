@@ -8,7 +8,7 @@ const adPostSchema = new Schema(
     media: String,
     isImage: { type: Boolean, default: true },
     location: { type: String },
-    author: { type: Object, required: true },
+    author: { type: Schema.Types.ObjectId, ref: "User" },
     expireDate: { type: Date },
     isApprove: { type: Boolean, default: false },
     like: [{ type: Schema.Types.ObjectId, ref: "User" }],

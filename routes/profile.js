@@ -14,8 +14,22 @@ router.get("/:username", async (req, res) => {
       { username: req.params.username },
       "-password -__v -createdAt -updatedAt -isAdmin"
     )
-      .populate("post")
-      .populate("adPost");
+      .populate({
+        path: "post",
+        populate: {
+          path: "author",
+          select:
+            "-password -createdAt -updatedAt -__v -post -adPost -isAdmin -_id -email -username"
+        }
+      })
+      .populate({
+        path: "adPost",
+        populate: {
+          path: "author",
+          select:
+            "-password -createdAt -updatedAt -__v -post -adPost -isAdmin -_id -email -username"
+        }
+      });
     if (!user) {
       return res
         .status(401)
@@ -38,7 +52,7 @@ router.put("/:username", async (req, res) => {
       { new: true }
     );
     // Checks if the current user is logged in
-    if (profile._id == req.user.id) {
+    if (profile._id == req.userId) {
       const updateProfile = await User.findOneAndUpdate(
         { username: req.params.username },
         req.body,

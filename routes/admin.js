@@ -4,6 +4,7 @@ const router = express.Router();
 const Auth = require("../auth/auth");
 const adPost = require("../models/adPost");
 const Post = require("../models/post");
+const User = require("../models/user");
 
 // Verify the token
 router.use(Auth.verToken);
@@ -11,10 +12,16 @@ router.use(Auth.verToken);
 // Get dashboard
 router.get("/", async (req, res) => {
   try {
-    if (req.user.isAdmin) {
-      const posts = await Post.find({ isApprove: false }).sort({
-        createdAt: -1
-      });
+    const user = await User.findById(req.userId);
+    if (user.isAdmin) {
+      const posts = await Post.find({ isApprove: false })
+        .sort({
+          createdAt: -1
+        })
+        .populate(
+          "author",
+          "-password -createdAt -updatedAt -__v -post -adPost -isAdmin -_id -email -username"
+        );
       return res.json({
         message: "Request success",
         status: true,
@@ -31,14 +38,24 @@ router.get("/", async (req, res) => {
 //get ads post
 router.get("/adPost", async (req, res) => {
   try {
-    if (req.user.isAdmin) {
+    const user = await User.findById(req.userId);
+    if (user.isAdmin) {
       const posts = await adPost
         .find({ isApprove: false })
-        .sort({ createdAt: -1 });
-      const onGoingAds = await adPost.find({
-        isApprove: true,
-        expireDate: { $gte: Date.now() }
-      });
+        .sort({ createdAt: -1 })
+        .populate(
+          "author",
+          "-password -createdAt -updatedAt -__v -post -adPost -isAdmin -_id -email -username"
+        );
+      const onGoingAds = await adPost
+        .find({
+          isApprove: true,
+          expireDate: { $gte: Date.now() }
+        })
+        .populate(
+          "author",
+          "-password -createdAt -updatedAt -__v -post -adPost -isAdmin -_id -email -username"
+        );
       return res.json({
         message: "Request success",
         status: true,
@@ -57,7 +74,8 @@ router.get("/adPost", async (req, res) => {
 router.patch("/post/:postid", async (req, res) => {
   // Checks if the user is admin
   try {
-    if (req.user.isAdmin) {
+    const user = await User.findById(req.userId);
+    if (user.isAdmin) {
       const post = await Post.findOneAndUpdate(
         { _id: req.params.postid },
         { isApprove: true }
@@ -84,7 +102,8 @@ router.patch("/adpost/:adpostid", async (req, res) => {
   // Checks if the user is admin
   const expireDate = new Date(Date.now() + req.body.days * 24 * 60 * 60 * 1000);
   try {
-    if (req.user.isAdmin) {
+    const user = await User.findById(req.userId);
+    if (user.isAdmin) {
       const post = await adPost.findOneAndUpdate(
         { _id: req.params.adpostid },
         { isApprove: true, expireDate }

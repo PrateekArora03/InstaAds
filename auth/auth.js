@@ -23,15 +23,8 @@ exports.verToken = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, userToken) => {
       if (err) return res.status(401).json({ message: "invalid token" });
-      User.findById(
-        userToken.userId,
-        "-password -createdAt -updatedAt -__v -post -adPost",
-        (err, user) => {
-          if (err) return res.status(401).json({ message: "User not found" });
-          req.user = user;
-          next();
-        }
-      );
+      req.userId = userToken.userId;
+      next();
     });
   } else res.status(401).json({ message: "unauthorized access" });
 };

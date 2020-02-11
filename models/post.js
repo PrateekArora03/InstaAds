@@ -9,7 +9,7 @@ const postSchema = Schema(
     media: String,
     isImage: { type: Boolean, default: true },
     location: String,
-    author: { type: Object, required: true },
+    author: { type: Schema.Types.ObjectId, ref: "User" },
     isApprove: { type: Boolean, default: false },
     like: [{ type: Schema.Types.ObjectId, ref: "User" }],
     views: { type: Number, default: 0 }

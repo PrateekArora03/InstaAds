@@ -106,7 +106,6 @@ class Profile extends React.Component {
         }
       });
       this.setState({
-        ...this.state,
         post: res.data.user.post,
         adPost: res.data.user.adPost
       });

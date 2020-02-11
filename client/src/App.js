@@ -31,6 +31,7 @@ class App extends React.Component {
       this.setState({ user: res.data.user });
     } catch (err) {
       console.error(err);
+      this.logOutUser();
     }
   };
 

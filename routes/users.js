@@ -4,8 +4,11 @@ const User = require("../models/user");
 const Auth = require("../auth/auth");
 
 /* Get current user */
-router.get("/", Auth.verToken, (req, res) => {
-  const user = req.user;
+router.get("/", Auth.verToken, async (req, res) => {
+  const user = await User.findOne(
+    { _id: req.userId },
+    "-password -__v -createdAt -updatedAt"
+  );
   res.json({ user });
 });
 

@@ -20,6 +20,7 @@ function PostItem({ data, user, fetchPosts, view }) {
     isImage,
     views
   } = data;
+  console.log(author);
   const { name, picture } = author;
 
   const handleLike = async (id, e) => {
@@ -75,7 +76,7 @@ function PostItem({ data, user, fetchPosts, view }) {
                   backgroundColor: "#fde3cf"
                 }}
               >
-                {name.split(" ")[0]}
+                {name}
               </Avatar>
             )}
           </div>

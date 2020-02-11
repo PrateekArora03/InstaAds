@@ -2,10 +2,12 @@ const express = require("express");
 const router = express();
 const Ad = require("./../models/ad");
 const auth = require("./../auth/auth");
+const User = require("../models/user");
 
 //Home Banner route
 router.patch("/", auth.verToken, async (req, res) => {
-  if (req.user.isAdmin) {
+  const user = await User.findById(req.userId);
+  if (user.isAdmin) {
     try {
       const ads = await Ad.find({});
       await Ad.findOneAndUpdate(
