@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Switch, Input, Button, message } from "antd";
 
+import ImageUpload from "./../../layout/post/ImageUpload";
 import "./carousel.scss";
 
 class Carousel extends Component {
   state = {
-    banner: ""
+    banner: "",
+    ImageUploadUrl: ""
   };
 
   changeImage = e => {
@@ -49,6 +51,10 @@ class Carousel extends Component {
     }
   };
 
+  imageUpdate = file => {
+    this.setState({ ImageUploadUrl: file });
+  };
+
   componentDidMount = async () => {
     try {
       const res = await axios.get("/api/carousel/");
@@ -61,60 +67,68 @@ class Carousel extends Component {
   render() {
     const check = this.state.banner.toggle === "image" ? true : false;
     return (
-      this.state.banner && (
-        <div className="carousel-container">
-          <Switch
-            className="carousel-switch"
-            checkedChildren="Image"
-            unCheckedChildren="Video"
-            defaultChecked={check}
-            onClick={this.toggle}
-          />
-          {check === true ? (
-            <div className="input-margin">
-              <Input
-                placeholder="Banner Image  1"
-                value={this.state.banner.carousel.A}
-                onChange={this.changeImage}
-                name="A"
-              />
-              <Input
-                placeholder="Banner Image  2"
-                value={this.state.banner.carousel.B}
-                onChange={this.changeImage}
-                name="B"
-              />
-              <Input
-                placeholder="Banner Image  3"
-                value={this.state.banner.carousel.C}
-                onChange={this.changeImage}
-                name="C"
-              />
-              <Input
-                placeholder="Banner Image  4"
-                value={this.state.banner.carousel.D}
-                onChange={this.changeImage}
-                name="D"
-              />
-            </div>
-          ) : (
-            <div className="input-margin">
-              <Input
-                placeholder="Video Link"
-                value={this.state.banner.video}
-                onChange={this.changeVideo}
-              />
-            </div>
+      <div>
+        <div className="carousel-image-upload">
+          <ImageUpload imageUpdate={this.imageUpdate} />
+          {this.state.ImageUploadUrl && (
+            <Input value={this.state.ImageUploadUrl} />
           )}
-          <Button
-            style={{ width: "100px" }}
-            type="primary"
-            onClick={this.handleSubmit}
-          >
-            Submit
-          </Button>
         </div>
-      )
+        {this.state.banner && (
+          <div className="carousel-container">
+            <Switch
+              className="carousel-switch"
+              checkedChildren="Image"
+              unCheckedChildren="Video"
+              defaultChecked={check}
+              onClick={this.toggle}
+            />
+            {check === true ? (
+              <div className="input-margin">
+                <Input
+                  placeholder="Banner Image  1"
+                  value={this.state.banner.carousel.A}
+                  onChange={this.changeImage}
+                  name="A"
+                />
+                <Input
+                  placeholder="Banner Image  2"
+                  value={this.state.banner.carousel.B}
+                  onChange={this.changeImage}
+                  name="B"
+                />
+                <Input
+                  placeholder="Banner Image  3"
+                  value={this.state.banner.carousel.C}
+                  onChange={this.changeImage}
+                  name="C"
+                />
+                <Input
+                  placeholder="Banner Image  4"
+                  value={this.state.banner.carousel.D}
+                  onChange={this.changeImage}
+                  name="D"
+                />
+              </div>
+            ) : (
+              <div className="input-margin">
+                <Input
+                  placeholder="Video Link"
+                  value={this.state.banner.video}
+                  onChange={this.changeVideo}
+                />
+              </div>
+            )}
+            <Button
+              style={{ width: "100px" }}
+              type="primary"
+              onClick={this.handleSubmit}
+            >
+              Submit
+            </Button>
+          </div>
+        )}
+      </div>
     );
   }
 }

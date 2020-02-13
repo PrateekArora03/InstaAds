@@ -128,6 +128,7 @@ class DashBoard extends React.Component {
           confirmLoading={this.state.confirmLoading}
           onCancel={this.handleCancel}
         >
+          <p>Ads expiry in days</p>
           <InputNumber
             placeholder="Ads expiry in days"
             onChange={e => {
