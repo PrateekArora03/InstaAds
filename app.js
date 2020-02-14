@@ -48,8 +48,8 @@ app.use("/api/adpost", adPostRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/carousel", carouselRouter);
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 module.exports = app;

@@ -10,7 +10,7 @@
     "dev": "concurrently  \"npm run server\" \"npm run client\""
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^5.0.2",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
