@@ -227,7 +227,7 @@ class Profile extends React.Component {
             onChange={this.handleChange}
             value={this.state.formData.dateOfBirth}
             type="text"
-            placeholder="Datre Of Birth DD-MM-YY"
+            placeholder="Date Of Birth DD-MM-YY"
             name="dateOfBirth"
           />
           <Input
@@ -241,28 +241,28 @@ class Profile extends React.Component {
             type="text"
             onChange={this.handleChange}
             value={this.state.formData.city}
-            placeholder="city"
+            placeholder="City"
             name="city"
           />
           <Input
             type="text"
             onChange={this.handleChange}
             value={this.state.formData.country}
-            placeholder="country"
+            placeholder="Country"
             name="country"
           />
           <Input
             type="text"
             onChange={this.handleChange}
             value={this.state.formData.qualification}
-            placeholder="qualification"
+            placeholder="Qualification"
             name="qualification"
           />
           <Input
             type="text"
             onChange={this.handleChange}
             value={this.state.formData.professionalQualification}
-            placeholder="professional Qualification"
+            placeholder="Professional Qualification"
             name="professionalQualification"
           />
         </Modal>
