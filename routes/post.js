@@ -64,9 +64,12 @@ router.post("/", async (req, res) => {
 router.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
   try {
-    const post = await Post.findOne({ _id: postId });
+    const post = await Post.findOne({ _id: postId }).populate(
+      "author",
+      "-password"
+    );
     if (!post) res.json({ message: "Post doesn't found", status: false });
-    res.json({ message: "Got the post", status: true, post });
+    res.json({ post });
   } catch (error) {
     res.status(401).json({ message: "There's an error", status: false });
   }

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Route } from "react-router-dom";
 
 import PostItem from "../post/PostItem";
 import Carousel from "../carousel/Carousel";
+import SharePost from "../post/SharePost";
+
 import "./Home.scss";
 
 export default class Home extends Component {
@@ -37,6 +40,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home-main-container">
+        <Route path="/share/:postId" component={SharePost} />
         <Carousel />
         {this.state.posts &&
           this.state.posts.map(post => {

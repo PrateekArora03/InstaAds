@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { Popover, Button, Avatar, Icon } from "antd";
+import { Popover, Button, Avatar, Icon, Modal } from "antd";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PostItem.scss";
 
 function PostItem({ data, user, fetchPosts, view }) {
   // State
   const [visible, toggleVisible] = useState(false);
+  const [sharePost, setSharePost] = useState("");
 
   // Destructur the variables from data object
   const {
@@ -20,7 +21,6 @@ function PostItem({ data, user, fetchPosts, view }) {
     isImage,
     views
   } = data;
-  console.log(author);
   const { name, picture } = author;
 
   const handleLike = async (id, e) => {
@@ -66,9 +66,13 @@ function PostItem({ data, user, fetchPosts, view }) {
     <article className="post-container">
       <header className="post-header-section">
         <div className="post-profile">
-          <div className="post-profile-img" title="name profile picture">
+          <div className="post-profile-img" title={name}>
             {picture ? (
-              <img alt="profile" className="user-profile-img" src={picture} />
+              <img
+                alt="profile"
+                className="user-profile-img"
+                src={"/" + picture}
+              />
             ) : (
               <Avatar
                 style={{
@@ -81,7 +85,7 @@ function PostItem({ data, user, fetchPosts, view }) {
             )}
           </div>
           <div className="post-profile-name">
-            <h2 title="User Profile name">{name}</h2>
+            <h2 title={name}>{name}</h2>
           </div>
         </div>
         {user && (
@@ -90,18 +94,23 @@ function PostItem({ data, user, fetchPosts, view }) {
               <Popover
                 content={
                   <ul className="more-option-list">
-                    {/* Provide the delete option if only user owns the post */}
+                    <li className="more-list-item">
+                      <button
+                        className="more-list-btn"
+                        onClick={() => setSharePost(_id)}
+                      >
+                        Share
+                      </button>
+                    </li>
                     {author._id === user._id ? (
-                      <>
-                        <li className="more-list-item">
-                          <button
-                            className="more-list-btn"
-                            onClick={() => handleDelete(_id)}
-                          >
-                            Delete
-                          </button>
-                        </li>
-                      </>
+                      <li className="more-list-item">
+                        <button
+                          className="more-list-btn"
+                          onClick={() => handleDelete(_id)}
+                        >
+                          Delete
+                        </button>
+                      </li>
                     ) : (
                       ""
                     )}
@@ -124,7 +133,7 @@ function PostItem({ data, user, fetchPosts, view }) {
         {isImage ? (
           <img
             className={view === "profile" ? "post-profile-image" : ""}
-            src={media}
+            src={"/" + media}
             alt="business ad"
           />
         ) : (
@@ -171,6 +180,19 @@ function PostItem({ data, user, fetchPosts, view }) {
           )}
         </div>
       </footer>
+      <Modal
+        centered
+        visible={sharePost}
+        onOk={() => setSharePost("")}
+        onCancel={() => setSharePost("")}
+      >
+        <div>
+          <img style={{ width: "100%", height: "100%" }} src="/sharelink.png" />
+          <div
+            style={{ textAlign: "center", fontSize: "16px" }}
+          >{`https://y4ia.org/share/${sharePost}`}</div>
+        </div>
+      </Modal>
     </article>
   );
 }
